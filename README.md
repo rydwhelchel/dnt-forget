@@ -1,1 +1,1 @@
-# Group Project -- Name TBD -- Project TBD
+# DNT Forget -- An event reminder app
