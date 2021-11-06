@@ -1,7 +1,9 @@
-"""
-Just a draft for help.
-"""
+from flask_sqlalchemy import SQLAlchemy
+from app_setup import app
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
+db = SQLAlchemy(app)
 
 class Person(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -18,16 +20,4 @@ class Person(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-
-from login import db
-from login import Person
-import login
-
 db.create_all()
-admin = Person(username="admin", email="admin@example.com")
-admin.set_password("1234")
-guest = Person(username="guest", email="guest@example.com")
-guest.set_password("1234")
-db.session.add(admin)
-db.session.add(guest)
-db.session.commit()

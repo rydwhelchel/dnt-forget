@@ -1,0 +1,7 @@
+Flask
+python-dotenv
+requests
+psycopg2
+flask_login
+flask_SQLAlchemy
+email_validator
