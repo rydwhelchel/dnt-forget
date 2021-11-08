@@ -28,7 +28,9 @@
   </head>
   <body>
     <!--Required to pass the data dictionary up from Flask-->
-    <script id="data" type="application/json">{{data|safe}}</script>
+    <script id="data" type="application/json">
+      {{data|safe}}
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

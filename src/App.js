@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import CloseButton from "react-bootstrap/CloseButton";
+import Header from "./components/Header";
 
 function App() {
-  const args = JSON.parse(document.getElementById('data').text);
+  const args = JSON.parse(document.getElementById("data").text);
+
+  const onSaveClick = () => {
+    console.log("hello");
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Hello, {args.current_user}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* Component */}
+      <Header />
+      <ListGroup as="ol" numbered>
+        <ListGroup.Item as="li">
+          Here's where I'd put my tasks
+          <Button onClick={onSaveClick} variant="primary">
+            I do something!
+          </Button>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          If I had any...
+          <Button variant="dark">I don't do anything..</Button>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          Additional List items with many buttons{" "}
+          <ButtonGroup aria-label="Basic example">
+            <Button variant="secondary">Left</Button>
+            <Button variant="secondary">Middle</Button>
+            <Button variant="secondary">Right</Button>
+          </ButtonGroup>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          Here's an X button <CloseButton />
+        </ListGroup.Item>
+      </ListGroup>
+    </>
   );
 }
 

@@ -21,7 +21,7 @@ def index():
         data=data,
     )
 
-app.register_blueprint(bp)
+
 
 @login_manager.user_loader
 def load_user(id):
@@ -42,7 +42,7 @@ def register():
         return redirect(url_for("login"))
     return render_template("register.html", title="Register", form=form)
 
-@app.route("/login", methods=["GET", "POST"])
+@bp.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("bp.index"))
@@ -56,7 +56,7 @@ def login():
         return redirect(url_for("bp.index"))
 
     return render_template("login.html", title="Sign In", form=form)
-
+app.register_blueprint(bp)
 @app.route("/logout")
 def logout():
     logout_user()
