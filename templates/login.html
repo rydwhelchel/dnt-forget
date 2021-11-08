@@ -1,9 +1,5 @@
-<head>
-  <link rel="stylesheet" type="text/css" href="./static/style.css" />
-</head>
-
 {% extends "base.html" %} {% block content %}
-<h1 class="red">Sign In</h1>
+<h1>Sign In</h1>
 {% with messages = get_flashed_messages() %} {% if messages %}
 <!-- {% for message in messages[] %} -->
 {{ message[-1]}}
