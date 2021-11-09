@@ -1,20 +1,35 @@
-import Button from "react-bootstrap/Button";
-import ListGroup from "react-bootstrap/ListGroup";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import CloseButton from "react-bootstrap/CloseButton";
-import Header from "./components/Header";
+// import Button from "react-bootstrap/Button";
+// import ListGroup from "react-bootstrap/ListGroup";
+// import ButtonGroup from "react-bootstrap/ButtonGroup";
+// import CloseButton from "react-bootstrap/CloseButton";
+// import Header from "./components/Header";
+import EventList from "./components/EventList";
 
 function App() {
-  const args = JSON.parse(document.getElementById("data").text);
-
-  const onSaveClick = () => {
-    console.log("hello");
+  //const args = JSON.parse(document.getElementById("data").text);
+  // Comment the above when using a local react app, comment the below args when using Flask to run your server
+  let args = {
+    events: [
+      {
+        title: "An assignment is due!",
+        date: "2021-11-11T12:00",
+      },
+      {
+        title: "Anniversary",
+        date: "2021-11-09",
+      },
+    ],
   };
+
+  // const onSaveClick = () => {
+  //   console.log("hello");
+  // };
 
   return (
     <>
-      {/* Component */}
-      <Header />
+      <EventList events={args.events} />
+      {/* BELOW IS FOR REFERENCE */}
+      {/* <Header />
       <ListGroup as="ol" numbered>
         <ListGroup.Item as="li">
           Here's where I'd put my tasks
@@ -37,7 +52,7 @@ function App() {
         <ListGroup.Item>
           Here's an X button <CloseButton />
         </ListGroup.Item>
-      </ListGroup>
+      </ListGroup> */}
     </>
   );
 }

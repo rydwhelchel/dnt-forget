@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login.utils import login_required
 from flask_login import current_user, login_user, logout_user
 
-from resources import db, LoginForm, RegistrationForm, Person
+from resources import db, LoginForm, RegistrationForm, Person, get_mock_events
 from app_setup import app, login_manager
 
 bp = Blueprint("bp", __name__, template_folder="./build")
@@ -15,6 +15,7 @@ bp = Blueprint("bp", __name__, template_folder="./build")
 @login_required
 def index():
     DATA = {"current_user": current_user.username}
+    DATA['events'] = get_mock_events()
     data = json.dumps(DATA)
     return render_template(
         "index.html",
