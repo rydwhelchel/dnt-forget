@@ -1,3 +1,4 @@
+# Keeping mocked events out of app.py
 def get_mock_events():
     mock_events = []
     mock_events.append({

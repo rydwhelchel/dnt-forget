@@ -15,6 +15,7 @@ bp = Blueprint("bp", __name__, template_folder="./build")
 @login_required
 def index():
     DATA = {"current_user": current_user.username}
+    # Setting mocked events since we do not have events in db yet
     DATA['events'] = get_mock_events()
     data = json.dumps(DATA)
     return render_template(
