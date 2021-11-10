@@ -8,17 +8,20 @@ const EventList = ({ events }) => {
     //TODO: Clean up
     let raw = Date.parse(eventDate);
     let ms_until = raw - Date.now();
+    let hours_until = 0;
+    let hours = 0;
+    let minutes = 0;
     if (ms_until < 0) {
-      let hours_until = (-1 * ms_until) / (1000 * 60 * 60);
-      let hours = Math.floor(hours_until);
-      let minutes = (hours_until - hours) * 60;
-      return `${hours} hours ${minutes.toFixed(0)} minutes`;
+      hours_until = (-1 * ms_until) / (1000 * 60 * 60);
     } else {
-      let hours_until = ms_until / (1000 * 60 * 60);
-      let hours = Math.floor(hours_until);
-      let minutes = (hours_until - hours) * 60;
-      return `${hours} hours ${minutes.toFixed(0)} minutes`;
+      hours_until = ms_until / (1000 * 60 * 60);
     }
+    hours = Math.floor(hours_until);
+    minutes = (hours_until - hours) * 60;
+    if (hours > 48) {
+      return `${Math.floor(hours / 24)} days and ${hours % 24} hours`;
+    }
+    return `${hours} hours ${minutes.toFixed(0)} minutes`;
 
     // We could then have if statements checking the time style of this event and return in different time styles
   };
