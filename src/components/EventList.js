@@ -5,7 +5,6 @@ import "../static/List.css";
 
 const EventList = ({ events }) => {
   const getDate = (eventDate) => {
-    //TODO: Clean up
     let raw = Date.parse(eventDate);
     let ms_until = raw - Date.now();
     let hours_until = 0;
@@ -22,8 +21,6 @@ const EventList = ({ events }) => {
       return `${Math.floor(hours / 24)} days and ${hours % 24} hours`;
     }
     return `${hours} hours ${minutes.toFixed(0)} minutes`;
-
-    // We could then have if statements checking the time style of this event and return in different time styles
   };
 
   return (

@@ -52,16 +52,14 @@ function App() {
       let ms_until_or_since = Date.parse(event.date) - Date.now();
 
       if (ms_until_or_since < 0) {
-        // since events
         // might be worth to construct the string representation when state updates ?
         // instead of storing in variable, maybe store in state variable, use setState to change it once calculated
         since_events.push(event);
       } else {
-        // until events
         until_events.push(event);
       }
     });
-    // Sort them!
+    // Sorting events
     until_events.sort((a, b) =>
       parseFloat(Date.parse(a.date) - Date.parse(b.date))
     );
@@ -71,6 +69,7 @@ function App() {
     return [until_events, since_events];
   };
 
+  // Processes events before displaying
   let parsedEvents = organizeEvents(args.events);
 
   return (
