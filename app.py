@@ -62,11 +62,6 @@ def logout():
     logout_user()
     return redirect(url_for("bp.index"))
 
-"""
-@app.route('/')
-def main():
-	...
-"""
 
 if __name__ == "__main__":
     app.run(
