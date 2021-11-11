@@ -24,34 +24,28 @@ const EventList = ({ events }) => {
   };
 
   return (
-    <div className="listGroup">
-      <ListGroup as="ul">
-        <h1>Until events!</h1>
+    <div className="listContainer">
+      <ListGroup className="untilList">
         {events[0].map((event) => (
-          <ListGroup.Item
-            style={{ display: "flex" }}
-            className="listItem"
-            as="li"
-          >
-            {event.title} - {getDate(event.date)} left!
-            <Button style={{ alignSelf: "flex-end" }} variant="outline-primary">
-              Edit me:
-            </Button>
+          <ListGroup.Item variant="primary">
+            <div className="listItem">
+              {event.title} - {getDate(event.date)} left!
+              <Button className="listButton" variant="outline-primary">
+                Edit me:
+              </Button>
+            </div>
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <ListGroup as="ul">
-        <h1>Since events</h1>
+      <ListGroup className="sinceList">
         {events[1].map((event) => (
-          <ListGroup.Item
-            style={{ display: "flex" }}
-            className="listItem"
-            as="li"
-          >
-            {event.title} - {getDate(event.date)} since!
-            <Button style={{ alignSelf: "flex-end" }} variant="outline-primary">
-              Edit me:
-            </Button>
+          <ListGroup.Item variant="danger">
+            <div className="listItem">
+              {event.title} - {getDate(event.date)} since!
+              <Button className="listButton" variant="outline-primary">
+                Edit me:
+              </Button>
+            </div>
           </ListGroup.Item>
         ))}
       </ListGroup>

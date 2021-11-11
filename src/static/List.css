@@ -1,7 +1,24 @@
 .listItem {
-  display: "flex";
-  justify-content: flex-end;
-}
-.listGroup {
   display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.listContainer {
+  display: grid;
+  grid-template-columns: minmax(300px, 600px);
+  justify-content: center;
+  justify-items: center;
+}
+.untilList {
+  gap: 1px;
+  width: 100%;
+}
+.sinceList {
+  gap: 1px;
+  width: 100%;
+}
+.listButton {
+  height: 35px;
+  align-content: center;
 }
