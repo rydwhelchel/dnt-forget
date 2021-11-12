@@ -1,7 +1,7 @@
 import EventList from "./components/EventList";
 
 function App() {
-  //const args = JSON.parse(document.getElementById("data").text);
+  // const args = JSON.parse(document.getElementById("data").text);
   // Comment the above when using a local react app, comment the below args when using Flask to run your server
   // Fake events
   let args = {
