@@ -17,13 +17,12 @@ def index():
     DATA = {"current_user": current_user.username}
     # Setting mocked events since we do not have events in db yet
     events = Event.query.filter_by(username=current_user.username).all()
-    event_titles = []
-    event_dates = []
+    #event_titles = []
+    #event_dates = []
+    event_list = []
     for i in range(len(events)):
-        event_titles.append(events[i].title)
-        event_dates.append(events[i].date)
-    DATA['event_titles'] = event_titles
-    DATA['event_dates'] = event_dates
+        event_list.append({'title': events[i].title, 'date': events[i].date})
+    DATA['events'] = event_list
     data = json.dumps(DATA)
     return render_template(
         "index.html",
@@ -84,8 +83,11 @@ def save():
         event_dates.append(i['date'])
     username = current_user.username
     update_db_ids_for_user(username, event_titles, event_dates)
-    #TODO: Return new list of events from user
-    return {}
+    events = Event.query.filter_by(username=current_user.username).all()
+    event_jsoned = []
+    for i in events:
+        event_jsoned.append({'title':i.title,'date':i.date})
+    return { 'events': event_jsoned }
 
 def update_db_ids_for_user(user, event_titles, event_dates):
     """
@@ -97,10 +99,13 @@ def update_db_ids_for_user(user, event_titles, event_dates):
     existing_titles = {
         event.title for event in Event.query.filter_by(username=user).all()
     }
-    for i in range(len(event_titles)):
+    i = 0
+    while i < len(event_titles):
         if event_titles[i] in existing_titles:
             event_titles.pop(i)
             event_dates.pop(i)
+            i-=1
+        i += 1
     for i in range(len(event_titles)):
         db.session.add(Event(title=event_titles[i], username=user, date=event_dates[i]))
     db.session.commit()
