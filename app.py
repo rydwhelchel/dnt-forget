@@ -1,10 +1,10 @@
 import os
 import json
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import jsonify, request, Blueprint, render_template, redirect, url_for, flash
 from flask_login.utils import login_required
 from flask_login import current_user, login_user, logout_user
 
-from resources import db, LoginForm, RegistrationForm, Person, get_mock_events
+from resources import db, LoginForm, RegistrationForm, Person, get_mock_events, Event
 from app_setup import app, login_manager
 
 bp = Blueprint("bp", __name__, template_folder="./build")
@@ -16,7 +16,14 @@ bp = Blueprint("bp", __name__, template_folder="./build")
 def index():
     DATA = {"current_user": current_user.username}
     # Setting mocked events since we do not have events in db yet
-    DATA['events'] = get_mock_events()
+    events = Event.query.filter_by(username=current_user.username).all()
+    event_titles = []
+    event_dates = []
+    for i in range(len(events)):
+        event_titles.append(events[i].title)
+        event_dates.append(events[i].date)
+    DATA['event_titles'] = event_titles
+    DATA['event_dates'] = event_dates
     data = json.dumps(DATA)
     return render_template(
         "index.html",
@@ -63,6 +70,40 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("bp.index"))
+
+@app.route("/save", methods=["POST"])
+def save():
+    """
+    Receives JSON data from App.js, saves the event information under the current user
+    in the database.
+    """
+    event_dates=[]
+    event_titles=[]
+    for i in request.json.get("event"):
+        event_titles.append(i['title'])
+        event_dates.append(i['date'])
+    username = current_user.username
+    update_db_ids_for_user(username, event_titles, event_dates)
+    #TODO: Return new list of events from user
+    return {}
+
+def update_db_ids_for_user(user, event_titles, event_dates):
+    """
+    Updates the DB so that only entries for valid_ids exist in it.
+    @param username: the username of the current user
+    @param valid_ids: a set of artist IDs that the DB should update itself
+        to reflect
+    """
+    existing_titles = {
+        event.title for event in Event.query.filter_by(username=user).all()
+    }
+    for i in range(len(event_titles)):
+        if event_titles[i] in existing_titles:
+            event_titles.pop(i)
+            event_dates.pop(i)
+    for i in range(len(event_titles)):
+        db.session.add(Event(title=event_titles[i], username=user, date=event_dates[i]))
+    db.session.commit()
 
 
 if __name__ == "__main__":

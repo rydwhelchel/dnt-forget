@@ -23,9 +23,9 @@ class Person(UserMixin, db.Model):
 class Event(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     title=db.Column(db.String(64))
-    user=db.Column(db.String(64))
+    username=db.Column(db.String(64))
     date=db.Column(db.String(64))
-    folder=db.Column(db.String(64))
+    # folder=db.Column(db.String(64))
 
     def __repr__(self):
         return "<Title {}>, Date {}".format(self.title, self.date)
