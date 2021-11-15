@@ -1,21 +1,22 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
-import ListGroup from "react-bootstrap/ListGroup";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
 
-const EventItem = ({ event, typeItem, onRemoveClick, onMarkComplete }) => {
+const EventItem = function EventItem({ event, typeItem, onRemoveClick }) {
   const getDate = (eventDate) => {
-    let raw = Date.parse(eventDate);
-    let ms_until = raw - Date.now();
-    let hours_until = 0;
+    const raw = Date.parse(eventDate);
+    const msUntil = raw - Date.now();
+    let hoursUntil = 0;
     let hours = 0;
     let minutes = 0;
-    if (ms_until < 0) {
-      hours_until = (-1 * ms_until) / (1000 * 60 * 60);
+    if (msUntil < 0) {
+      hoursUntil = (-1 * msUntil) / (1000 * 60 * 60);
     } else {
-      hours_until = ms_until / (1000 * 60 * 60);
+      hoursUntil = msUntil / (1000 * 60 * 60);
     }
-    hours = Math.floor(hours_until);
-    minutes = (hours_until - hours) * 60;
+    hours = Math.floor(hoursUntil);
+    minutes = (hoursUntil - hours) * 60;
     if (hours > 48) {
       return `${Math.floor(hours / 24)} days and ${hours % 24} hours`;
     }
@@ -23,11 +24,16 @@ const EventItem = ({ event, typeItem, onRemoveClick, onMarkComplete }) => {
   };
 
   return (
-    <>
-      {typeItem === "until" ? (
+    <div>
+      {typeItem === 'until' ? (
         <ListGroup.Item variant="primary">
           <div className="listItem">
-            {event.title} - {getDate(event.date)} left!
+            {event.title}
+            {' '}
+            -
+            {getDate(event.date)}
+            {' '}
+            left!
             <Button
               className="listButton"
               variant="outline-primary"
@@ -40,7 +46,12 @@ const EventItem = ({ event, typeItem, onRemoveClick, onMarkComplete }) => {
       ) : (
         <ListGroup.Item variant="danger">
           <div className="listItem">
-            {event.title} - {getDate(event.date)} since!
+            {event.title}
+            {' '}
+            -
+            {getDate(event.date)}
+            {' '}
+            since!
             <Button
               className="listButton"
               variant="outline-primary"
@@ -51,8 +62,17 @@ const EventItem = ({ event, typeItem, onRemoveClick, onMarkComplete }) => {
           </div>
         </ListGroup.Item>
       )}
-    </>
+    </div>
   );
+};
+
+EventItem.propTypes = {
+  event: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+  }).isRequired,
+  typeItem: PropTypes.string.isRequired,
+  onRemoveClick: PropTypes.func.isRequired,
 };
 
 export default EventItem;
