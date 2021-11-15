@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
-const EventItem = ({ event, typeItem }) => {
+const EventItem = ({ event, typeItem, onRemoveClick, onMarkComplete }) => {
   const getDate = (eventDate) => {
     let raw = Date.parse(eventDate);
     let ms_until = raw - Date.now();
@@ -28,7 +28,11 @@ const EventItem = ({ event, typeItem }) => {
         <ListGroup.Item variant="primary">
           <div className="listItem">
             {event.title} - {getDate(event.date)} left!
-            <Button className="listButton" variant="outline-primary">
+            <Button
+              className="listButton"
+              variant="outline-primary"
+              onClick={() => onRemoveClick()}
+            >
               Edit me:
             </Button>
           </div>
@@ -37,7 +41,11 @@ const EventItem = ({ event, typeItem }) => {
         <ListGroup.Item variant="danger">
           <div className="listItem">
             {event.title} - {getDate(event.date)} since!
-            <Button className="listButton" variant="outline-primary">
+            <Button
+              className="listButton"
+              variant="outline-primary"
+              onClick={() => onRemoveClick()}
+            >
               Edit me:
             </Button>
           </div>

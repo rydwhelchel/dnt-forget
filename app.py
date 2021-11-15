@@ -17,8 +17,6 @@ def index():
     DATA = {"current_user": current_user.username}
     # Setting mocked events since we do not have events in db yet
     events = Event.query.filter_by(username=current_user.username).all()
-    #event_titles = []
-    #event_dates = []
     event_list = []
     for i in range(len(events)):
         event_list.append({'title': events[i].title, 'date': events[i].date})
@@ -91,23 +89,24 @@ def save():
 
 def update_db_ids_for_user(user, event_titles, event_dates):
     """
-    Updates the DB so that only entries for valid_ids exist in it.
+    Updates the DB with new or removed events.
     @param username: the username of the current user
-    @param valid_ids: a set of artist IDs that the DB should update itself
+    @param event_titles: a set of artist IDs that the DB should update itself
         to reflect
     """
-    existing_titles = {
+    existing_titles = [
         event.title for event in Event.query.filter_by(username=user).all()
-    }
-    i = 0
-    while i < len(event_titles):
-        if event_titles[i] in existing_titles:
-            event_titles.pop(i)
-            event_dates.pop(i)
-            i-=1
-        i += 1
-    for i in range(len(event_titles)):
-        db.session.add(Event(title=event_titles[i], username=user, date=event_dates[i]))
+    ]
+    
+    to_add = [(title, date) for title,date in zip(event_titles, event_dates) if title not in existing_titles]
+    for event in to_add:
+        db.session.add(Event(title=event[0], username=user, date=event[1]))
+    events = Event.query.filter_by(username=user).all()
+    existing_titles = [event.title for event in events]
+
+    deleting_events = [(title, event) for title,event in zip(existing_titles, events) if title not in event_titles]
+    for event in deleting_events:
+        db.session.delete(event[1])
     db.session.commit()
 
 

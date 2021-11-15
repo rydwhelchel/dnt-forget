@@ -36,6 +36,16 @@ const EventList = ({ events }) => {
     form_title.current.value = "";
   };
 
+  const onClickDelete = (event) => {
+    let updatedEvents = [];
+    for (let j = 0; j < eventsList.length; j++) {
+      if (eventsList[j] === event) {
+        updatedEvents = [...eventsList.slice(0, j), ...eventsList.slice(j + 1)];
+      }
+    }
+    setEventsList(updatedEvents);
+  };
+
   const onClickSave = () => {
     const requestData = { event: eventsList };
     fetch("/save", {
@@ -105,12 +115,20 @@ const EventList = ({ events }) => {
           </button>
         </ListGroup.Item>
         {untilEvents.map((event) => (
-          <EventItem typeItem="until" event={event} />
+          <EventItem
+            typeItem="until"
+            event={event}
+            onRemoveClick={() => onClickDelete(event)}
+          />
         ))}
       </ListGroup>
       <ListGroup className="sinceList">
         {sinceEvents.map((event) => (
-          <EventItem typeItem="since" event={event} />
+          <EventItem
+            typeItem="since"
+            event={event}
+            onRemoveClick={() => onClickDelete(event)}
+          />
         ))}
       </ListGroup>
     </div>
