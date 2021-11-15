@@ -1,6 +1,7 @@
 .env
 __pycache__
 notes.txt
+.vscode
 
 # dependencies
 /node_modules
