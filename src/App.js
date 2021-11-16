@@ -2,6 +2,7 @@ import React from 'react';
 import EventList from './components/EventList';
 
 const App = function App() {
+  // const args = JSON.parse(document.getElementById('data').text);
   const args = {
     events: [
       { title: 'Meeting with Prof', date: '2021-11-11T12:00' },
