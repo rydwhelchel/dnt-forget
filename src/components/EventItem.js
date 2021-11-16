@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-const EventItem = function EventItem({ event, typeItem, onRemoveClick }) {
+const EventItem = function EventItem({
+  event, typeItem, onRemoveClick, testID,
+}) {
   const getDate = (eventDate) => {
     const raw = Date.parse(eventDate);
     const msUntil = raw - Date.now();
@@ -27,37 +29,41 @@ const EventItem = function EventItem({ event, typeItem, onRemoveClick }) {
     <div>
       {typeItem === 'until' ? (
         <ListGroup.Item variant="primary">
-          <div className="listItem">
+          <div data-testid={testID} variant="primary" className="listItem">
             {event.title}
             {' '}
             -
+            {' '}
             {getDate(event.date)}
             {' '}
             left!
             <Button
               className="listButton"
+              data-testid="until-button"
               variant="outline-primary"
               onClick={() => onRemoveClick()}
             >
-              Edit me:
+              Remove
             </Button>
           </div>
         </ListGroup.Item>
       ) : (
         <ListGroup.Item variant="danger">
-          <div className="listItem">
+          <div data-testid={testID} variant="danger" className="listItem">
             {event.title}
             {' '}
             -
+            {' '}
             {getDate(event.date)}
             {' '}
             since!
             <Button
               className="listButton"
+              data-testid="since-button"
               variant="outline-primary"
               onClick={() => onRemoveClick()}
             >
-              Edit me:
+              Remove
             </Button>
           </div>
         </ListGroup.Item>
@@ -73,6 +79,7 @@ EventItem.propTypes = {
   }).isRequired,
   typeItem: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
+  testID: PropTypes.string.isRequired,
 };
 
 export default EventItem;

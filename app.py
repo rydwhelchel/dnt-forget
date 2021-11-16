@@ -19,7 +19,7 @@ def index():
     events = Event.query.filter_by(username=current_user.username).all()
     event_list = []
     for i in range(len(events)):
-        event_list.append({'title': events[i].title, 'date': events[i].date})
+        event_list.append({'id': events[i].id, 'title': events[i].title, 'date': events[i].date})
     DATA['events'] = event_list
     data = json.dumps(DATA)
     return render_template(

@@ -105,7 +105,9 @@ const EventList = function EventList({ events }) {
         </ListGroup.Item>
         {untilEvents.map((event) => (
           <EventItem
+            key={event.id}
             typeItem="until"
+            testID={`event-${event.id}`}
             event={event}
             onRemoveClick={() => onClickDelete(event)}
           />
@@ -114,7 +116,9 @@ const EventList = function EventList({ events }) {
       <ListGroup className="sinceList">
         {sinceEvents.map((event) => (
           <EventItem
+            key={event.id}
             typeItem="since"
+            testID={`event-${event.id}`}
             event={event}
             onRemoveClick={() => onClickDelete(event)}
           />
