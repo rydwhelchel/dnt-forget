@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-const EventItem = function EventItem({ event, typeItem, onRemoveClick }) {
+const EventItem = function EventItem({
+  event,
+  typeItem,
+  onRemoveClick,
+  onCompletedClick,
+}) {
   const getDate = (eventDate) => {
     const raw = Date.parse(eventDate);
     const msUntil = raw - Date.now();
@@ -41,6 +46,13 @@ const EventItem = function EventItem({ event, typeItem, onRemoveClick }) {
             >
               Edit me:
             </Button>
+            <Button
+              className="listButton"
+              variant="outline-secondary"
+              onClick={() => onCompletedClick()}
+            >
+              Complete Me
+            </Button>
           </div>
         </ListGroup.Item>
       ) : (
@@ -73,6 +85,7 @@ EventItem.propTypes = {
   }).isRequired,
   typeItem: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
+  onCompletedClick: PropTypes.func.isRequired,
 };
 
 export default EventItem;

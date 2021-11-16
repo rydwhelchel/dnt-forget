@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ListGroup } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import EventItem from './EventItem';
-
 import 'react-datepicker/dist/react-datepicker.css';
 import '../static/List.css';
 
@@ -21,12 +20,7 @@ const EventList = function EventList({ events }) {
     const dateYears = startDate.getFullYear();
     const dateMonth = startDate.getMonth() + 1;
     const dateDay = startDate.getDate();
-    const dateString = `${dateYears}-${
-      dateMonth < 10 ? `0${dateMonth}` : dateMonth
-    }-${dateDay < 10 ? `0${dateDay}` : dateDay}T${
-      dateHours < 10 ? `0${dateHours}` : dateHours
-    }:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
-
+    const dateString = `${dateYears}-${dateMonth < 10 ? `0${dateMonth}` : dateMonth}-${dateDay < 10 ? `0${dateDay}` : dateDay}T${dateHours < 10 ? `0${dateHours}` : dateHours}:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
     setEventsList([...eventsList, { title: titleVal, date: dateString }]);
     formTitleRef.current.value = '';
   };
@@ -54,6 +48,30 @@ const EventList = function EventList({ events }) {
       .then((data) => {
         setEventsList(data.events);
       });
+  };
+
+  const onCompletion = (thisEvent) => {
+    const thisEventObject = thisEvent;
+    alert(thisEventObject.title);
+    const dateHours = startDate.getHours();
+    const dateMinutes = startDate.getMinutes();
+    const dateYears = startDate.getFullYear();
+    const dateMonth = startDate.getMonth() + 1;
+    const dateDay = startDate.getDate();
+    const newDateString = `${dateYears}-${dateMonth < 10 ? `0${dateMonth}` : dateMonth}-${dateDay < 10 ? `0${dateDay}` : dateDay}T${dateHours < 10 ? `0${dateHours}` : dateHours}:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
+    let updatedEvents = [];
+    updatedEvents = eventsList.slice();
+    for (let j = 0; j < updatedEvents.length; j += 1) {
+      if (updatedEvents[j] === thisEventObject) {
+        alert('match found');
+        alert(newDateString);
+        updatedEvents[j] = { title: thisEventObject.title, date: newDateString };
+        alert(updatedEvents[j].title);
+      }
+    }
+    alert(updatedEvents);
+    setEventsList(updatedEvents);
+    alert(eventsList);
   };
 
   useEffect(() => {
@@ -108,6 +126,7 @@ const EventList = function EventList({ events }) {
             typeItem="until"
             event={event}
             onRemoveClick={() => onClickDelete(event)}
+            onCompletedClick={() => onCompletion(event)}
           />
         ))}
       </ListGroup>
@@ -117,6 +136,7 @@ const EventList = function EventList({ events }) {
             typeItem="since"
             event={event}
             onRemoveClick={() => onClickDelete(event)}
+            onCompletedClick={() => onCompletion(event)}
           />
         ))}
       </ListGroup>
