@@ -10,8 +10,8 @@ from app_setup import app, login_manager
 bp = Blueprint("bp", __name__, template_folder="./build")
 
 # Not great practice to keep 2 routes on one method, should change in release
-@bp.route('/')
-@bp.route('/index')
+@bp.route("/")
+@bp.route("/index")
 @login_required
 def index():
     DATA = {"current_user": current_user.username}
@@ -19,19 +19,22 @@ def index():
     events = Event.query.filter_by(username=current_user.username).all()
     event_list = []
     for i in range(len(events)):
-        event_list.append({'title': events[i].title, 'date': events[i].date})
-    DATA['events'] = event_list
+        event_list.append({"title": events[i].title, "date": events[i].date})
+    DATA["events"] = event_list
     data = json.dumps(DATA)
     return render_template(
         "index.html",
         data=data,
     )
 
+
 app.register_blueprint(bp)
+
 
 @login_manager.user_loader
 def load_user(id):
     return Person.query.get(int(id))
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -48,6 +51,7 @@ def register():
         return redirect(url_for("login"))
     return render_template("register.html", title="Register", form=form)
 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
@@ -63,10 +67,12 @@ def login():
 
     return render_template("login.html", title="Sign In", form=form)
 
+
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for("bp.index"))
+
 
 @app.route("/save", methods=["POST"])
 def save():
@@ -74,20 +80,24 @@ def save():
     Receives JSON data from App.js, saves the event information under the current user
     in the database.
     """
-    event_dates=[]
-    event_titles=[]
+    event_dates = []
+    event_titles = []
+    event_completion = []
     for i in request.json.get("event"):
-        event_titles.append(i['title'])
-        event_dates.append(i['date'])
+        event_titles.append(i["title"])
+        event_dates.append(i["date"])
+        event_completion.append(i.get("completed", False))
+
     username = current_user.username
-    update_db_ids_for_user(username, event_titles, event_dates)
+    update_db_ids_for_user(username, event_titles, event_dates, event_completion)
     events = Event.query.filter_by(username=current_user.username).all()
     event_jsoned = []
     for i in events:
-        event_jsoned.append({'title':i.title,'date':i.date})
-    return { 'events': event_jsoned }
+        event_jsoned.append({"title": i.title, "date": i.date})
+    return {"events": event_jsoned}
 
-def update_db_ids_for_user(user, event_titles, event_dates):
+
+def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
     """
     Updates the DB with new or removed events.
     @param username: the username of the current user
@@ -97,22 +107,40 @@ def update_db_ids_for_user(user, event_titles, event_dates):
     existing_titles = [
         event.title for event in Event.query.filter_by(username=user).all()
     ]
-    
-    to_add = [(title, date) for title,date in zip(event_titles, event_dates) if title not in existing_titles]
+
+    to_add = [
+        (title, date)
+        for title, date in zip(event_titles, event_dates)
+        if title not in existing_titles
+    ]
     for event in to_add:
         db.session.add(Event(title=event[0], username=user, date=event[1]))
+
+    to_update = [
+        (completion, titles, event_date)
+        for completion, titles, event_date in zip(
+            event_completion, event_titles, event_dates
+        )
+        if completion
+    ]
+    for instance in to_update:
+        updating = Event.query.filter_by(title=instance[1], username=user).first()
+        updating.date = instance[2]
+
     events = Event.query.filter_by(username=user).all()
     existing_titles = [event.title for event in events]
-
-    deleting_events = [(title, event) for title,event in zip(existing_titles, events) if title not in event_titles]
+    deleting_events = [
+        (title, event)
+        for title, event in zip(existing_titles, events)
+        if title not in event_titles
+    ]
     for event in deleting_events:
         db.session.delete(event[1])
+
     db.session.commit()
 
 
 if __name__ == "__main__":
     app.run(
-        host=os.getenv('IP', '0.0.0.0'),
-        port=int(os.getenv('PORT', 8080)),
-        debug=True
+        host=os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", 8080)), debug=True
     )

@@ -6,6 +6,7 @@ import EventItem from './EventItem';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../static/List.css';
 
+let updateEvents = true;
 const EventList = function EventList({ events }) {
   const [eventsList, setEventsList] = useState(events);
   const [untilEvents, setUntilEvents] = useState([]);
@@ -33,6 +34,7 @@ const EventList = function EventList({ events }) {
       }
     }
     setEventsList(updatedEvents);
+    updateEvents = true;
   };
 
   const onClickSave = () => {
@@ -48,30 +50,32 @@ const EventList = function EventList({ events }) {
       .then((data) => {
         setEventsList(data.events);
       });
+    updateEvents = true;
   };
 
   const onCompletion = (thisEvent) => {
     const thisEventObject = thisEvent;
-    alert(thisEventObject.title);
-    const dateHours = startDate.getHours();
-    const dateMinutes = startDate.getMinutes();
-    const dateYears = startDate.getFullYear();
-    const dateMonth = startDate.getMonth() + 1;
-    const dateDay = startDate.getDate();
+    console.log(thisEventObject.date);
+    const newStartDate = new Date();
+    const dateHours = newStartDate.getHours();
+    const dateMinutes = newStartDate.getMinutes();
+    const dateYears = newStartDate.getFullYear();
+    const dateMonth = newStartDate.getMonth() + 1;
+    const dateDay = newStartDate.getDate();
     const newDateString = `${dateYears}-${dateMonth < 10 ? `0${dateMonth}` : dateMonth}-${dateDay < 10 ? `0${dateDay}` : dateDay}T${dateHours < 10 ? `0${dateHours}` : dateHours}:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
-    let updatedEvents = [];
-    updatedEvents = eventsList.slice();
-    for (let j = 0; j < updatedEvents.length; j += 1) {
-      if (updatedEvents[j] === thisEventObject) {
-        alert('match found');
-        alert(newDateString);
-        updatedEvents[j] = { title: thisEventObject.title, date: newDateString };
-        alert(updatedEvents[j].title);
-      }
-    }
-    alert(updatedEvents);
-    setEventsList(updatedEvents);
-    alert(eventsList);
+    // let updatedEvents = [];
+    // updatedEvents = eventsList.slice();
+    // // for (let j = 0; j < updatedEvents.length; j += 1) {
+    // //   if (updatedEvents[j].title === thisEventObject.title) {
+    // //     delete updatedEvents[j];
+    // //   }
+    // // }
+    // console.log(thisEventObject.date);
+    // setEventsList([...updatedEvents, { title: thisEventObject.title, date: newDateString }]);
+    thisEventObject.date = newDateString;
+    thisEventObject.completed = true;
+    setEventsList([...eventsList]);
+    updateEvents = true;
   };
 
   useEffect(() => {
@@ -97,8 +101,9 @@ const EventList = function EventList({ events }) {
       setUntilEvents(listOfUntilEvents);
       setSinceEvents(listOfSinceEvents);
     };
-    if (sinceEvents.length + untilEvents.length !== eventsList.length) {
+    if (updateEvents || sinceEvents.length + untilEvents.length !== eventsList.length) {
       organizeEvents(eventsList);
+      updateEvents = false;
     }
   }, [eventsList, sinceEvents, untilEvents]);
 
