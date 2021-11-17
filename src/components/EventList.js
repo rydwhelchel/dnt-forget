@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { ListGroup } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import EventItem from './EventItem';
-
 import 'react-datepicker/dist/react-datepicker.css';
 import '../static/List.css';
 
+let updateEvents = true;
 const EventList = function EventList({ events }) {
   const [eventsList, setEventsList] = useState(events);
   const [untilEvents, setUntilEvents] = useState([]);
@@ -21,12 +21,7 @@ const EventList = function EventList({ events }) {
     const dateYears = startDate.getFullYear();
     const dateMonth = startDate.getMonth() + 1;
     const dateDay = startDate.getDate();
-    const dateString = `${dateYears}-${
-      dateMonth < 10 ? `0${dateMonth}` : dateMonth
-    }-${dateDay < 10 ? `0${dateDay}` : dateDay}T${
-      dateHours < 10 ? `0${dateHours}` : dateHours
-    }:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
-
+    const dateString = `${dateYears}-${dateMonth < 10 ? `0${dateMonth}` : dateMonth}-${dateDay < 10 ? `0${dateDay}` : dateDay}T${dateHours < 10 ? `0${dateHours}` : dateHours}:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
     setEventsList([...eventsList, { title: titleVal, date: dateString }]);
     formTitleRef.current.value = '';
   };
@@ -39,6 +34,7 @@ const EventList = function EventList({ events }) {
       }
     }
     setEventsList(updatedEvents);
+    updateEvents = true;
   };
 
   const onClickSave = () => {
@@ -54,6 +50,22 @@ const EventList = function EventList({ events }) {
       .then((data) => {
         setEventsList(data.events);
       });
+    updateEvents = true;
+  };
+
+  const onCompletion = (thisEvent) => {
+    const thisEventObject = thisEvent;
+    const newStartDate = new Date();
+    const dateHours = newStartDate.getHours();
+    const dateMinutes = newStartDate.getMinutes();
+    const dateYears = newStartDate.getFullYear();
+    const dateMonth = newStartDate.getMonth() + 1;
+    const dateDay = newStartDate.getDate();
+    const newDateString = `${dateYears}-${dateMonth < 10 ? `0${dateMonth}` : dateMonth}-${dateDay < 10 ? `0${dateDay}` : dateDay}T${dateHours < 10 ? `0${dateHours}` : dateHours}:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
+    thisEventObject.date = newDateString;
+    thisEventObject.completed = true;
+    setEventsList([...eventsList]);
+    updateEvents = true;
   };
 
   useEffect(() => {
@@ -79,8 +91,9 @@ const EventList = function EventList({ events }) {
       setUntilEvents(listOfUntilEvents);
       setSinceEvents(listOfSinceEvents);
     };
-    if (sinceEvents.length + untilEvents.length !== eventsList.length) {
+    if (updateEvents || sinceEvents.length + untilEvents.length !== eventsList.length) {
       organizeEvents(eventsList);
+      updateEvents = false;
     }
   }, [eventsList, sinceEvents, untilEvents]);
 
@@ -110,6 +123,7 @@ const EventList = function EventList({ events }) {
             testID={`event-${event.id}`}
             event={event}
             onRemoveClick={() => onClickDelete(event)}
+            onCompletedClick={() => onCompletion(event)}
           />
         ))}
       </ListGroup>
@@ -121,6 +135,7 @@ const EventList = function EventList({ events }) {
             testID={`event-${event.id}`}
             event={event}
             onRemoveClick={() => onClickDelete(event)}
+            onCompletedClick={() => onCompletion(event)}
           />
         ))}
       </ListGroup>

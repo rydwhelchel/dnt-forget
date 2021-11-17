@@ -26,12 +26,14 @@ bp = Blueprint("bp", __name__, template_folder="./build")
 @login_required
 def index():
     DATA = {"current_user": current_user.username}
-    # Setting mocked events since we do not have events in db yet
     events = Event.query.filter_by(username=current_user.username).all()
     event_list = get_event_list(events)
     DATA["events"] = event_list
     data = json.dumps(DATA)
-    return render_template("index.html", data=data,)
+    return render_template(
+        "index.html",
+        data=data,
+    )
 
 
 app.register_blueprint(bp)
@@ -86,10 +88,15 @@ def save():
     Receives JSON data from App.js, saves the event information under the current user
     in the database.
     """
+
     requested_data = request.json.get("event")
     event_dates, event_titles = get_dates_titles(requested_data)  # request
+    event_completion = []
+    for i in request.json.get("event"):
+        event_completion.append(i.get("completed", False))
+
     username = current_user.username
-    update_db_ids_for_user(username, event_titles, event_dates)
+    update_db_ids_for_user(username, event_titles, event_dates, event_completion)
     events = Event.query.filter_by(username=current_user.username).all()
     event_jsoned = []
     for i in events:
@@ -97,7 +104,7 @@ def save():
     return {"events": event_jsoned}
 
 
-def update_db_ids_for_user(user, event_titles, event_dates):
+def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
     """
     Updates the DB with new or removed events.
     @param username: the username of the current user
@@ -109,12 +116,23 @@ def update_db_ids_for_user(user, event_titles, event_dates):
     ]
 
     to_add = to_add_events(event_titles, event_dates)
+
     for event in to_add:
         db.session.add(Event(title=event[0], username=user, date=event[1]))
 
+    to_update = [
+        (completion, titles, event_date)
+        for completion, titles, event_date in zip(
+            event_completion, event_titles, event_dates
+        )
+        if completion
+    ]
+    for instance in to_update:
+        updating = Event.query.filter_by(title=instance[1], username=user).first()
+        updating.date = instance[2]
+
     events = Event.query.filter_by(username=user).all()
     existing_titles = [event.title for event in events]
-
     to_delete = to_delete_events(event_titles, events)
     for event in to_delete:
         db.session.delete(event[1])
