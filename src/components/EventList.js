@@ -55,7 +55,6 @@ const EventList = function EventList({ events }) {
 
   const onCompletion = (thisEvent) => {
     const thisEventObject = thisEvent;
-    console.log(thisEventObject.date);
     const newStartDate = new Date();
     const dateHours = newStartDate.getHours();
     const dateMinutes = newStartDate.getMinutes();
