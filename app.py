@@ -15,7 +15,6 @@ bp = Blueprint("bp", __name__, template_folder="./build")
 @login_required
 def index():
     DATA = {"current_user": current_user.username}
-    # Setting mocked events since we do not have events in db yet
     events = Event.query.filter_by(username=current_user.username).all()
     event_list = []
     for i in range(len(events)):

@@ -73,9 +73,13 @@ const EventList = function EventList({ events }) {
     // console.log(thisEventObject.date);
     // setEventsList([...updatedEvents, { title: thisEventObject.title, date: newDateString }]);
     thisEventObject.date = newDateString;
+<<<<<<< HEAD
     thisEventObject.completed = true;
     setEventsList([...eventsList]);
     updateEvents = true;
+=======
+    setEventsList([...eventsList]);
+>>>>>>> 55b477cba29f0b8b3e5f30c0fdf9a602996a7430
   };
 
   useEffect(() => {
