@@ -108,14 +108,14 @@ def update_db_ids_for_user(user, event_titles, event_dates):
         event.title for event in Event.query.filter_by(username=user).all()
     ]
 
-    to_add = to_add_events(event_titles, event_dates)
+    to_add = to_add_events(event_titles, event_dates, existing_titles)
     for event in to_add:
         db.session.add(Event(title=event[0], username=user, date=event[1]))
 
     events = Event.query.filter_by(username=user).all()
     existing_titles = [event.title for event in events]
 
-    to_delete = to_delete_events(event_titles, events)
+    to_delete = to_delete_events(existing_titles, event_titles, events)
     for event in to_delete:
         db.session.delete(event[1])
     db.session.commit()
