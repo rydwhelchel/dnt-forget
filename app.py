@@ -27,7 +27,7 @@ bp = Blueprint("bp", __name__, template_folder="./build")
 def index():
     DATA = {"current_user": current_user.username}
     events = Event.query.filter_by(username=current_user.username).all()
-    event_list = []
+    event_list = get_event_list(events)
     for i in range(len(events)):
         event_list.append({"title": events[i].title, "date": events[i].date})
     DATA["events"] = event_list
@@ -90,12 +90,11 @@ def save():
     Receives JSON data from App.js, saves the event information under the current user
     in the database.
     """
-    event_dates = []
-    event_titles = []
+
+    requested_data = request.json.get("event")
+    event_dates, event_titles = get_dates_titles(requested_data)  # request
     event_completion = []
     for i in request.json.get("event"):
-        event_titles.append(i["title"])
-        event_dates.append(i["date"])
         event_completion.append(i.get("completed", False))
 
     username = current_user.username
@@ -118,11 +117,8 @@ def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
         event.title for event in Event.query.filter_by(username=user).all()
     ]
 
-    to_add = [
-        (title, date)
-        for title, date in zip(event_titles, event_dates)
-        if title not in existing_titles
-    ]
+    to_add = to_add_events(event_titles, event_dates)
+
     for event in to_add:
         db.session.add(Event(title=event[0], username=user, date=event[1]))
 
@@ -139,12 +135,8 @@ def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
 
     events = Event.query.filter_by(username=user).all()
     existing_titles = [event.title for event in events]
-    deleting_events = [
-        (title, event)
-        for title, event in zip(existing_titles, events)
-        if title not in event_titles
-    ]
-    for event in deleting_events:
+    to_delete = to_delete_events(event_titles, events)
+    for event in to_delete:
         db.session.delete(event[1])
 
     db.session.commit()
