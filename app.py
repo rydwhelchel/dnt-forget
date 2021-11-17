@@ -13,6 +13,8 @@ from resources import (
     Event,
     get_event_list,
     get_dates_titles,
+    to_add_events,
+    to_delete_events,
 )
 from app_setup import app, login_manager
 
@@ -106,22 +108,15 @@ def update_db_ids_for_user(user, event_titles, event_dates):
         event.title for event in Event.query.filter_by(username=user).all()
     ]
 
-    to_add = [
-        (title, date)
-        for title, date in zip(event_titles, event_dates)
-        if title not in existing_titles
-    ]
+    to_add = to_add_events(event_titles, event_dates)
     for event in to_add:
         db.session.add(Event(title=event[0], username=user, date=event[1]))
+
     events = Event.query.filter_by(username=user).all()
     existing_titles = [event.title for event in events]
 
-    deleting_events = [
-        (title, event)
-        for title, event in zip(existing_titles, events)
-        if title not in event_titles
-    ]
-    for event in deleting_events:
+    to_delete = to_delete_events(event_titles, events)
+    for event in to_delete:
         db.session.delete(event[1])
     db.session.commit()
 
