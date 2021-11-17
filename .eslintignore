@@ -2,3 +2,5 @@ setupTests.js
 reportWebVitals.js
 index.js
 .eslintrc.js
+__tests__
+build

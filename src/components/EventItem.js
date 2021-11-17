@@ -8,6 +8,7 @@ const EventItem = function EventItem({
   typeItem,
   onRemoveClick,
   onCompletedClick,
+  testID,
 }) {
   const getDate = (eventDate) => {
     const raw = Date.parse(eventDate);
@@ -32,19 +33,21 @@ const EventItem = function EventItem({
     <div>
       {typeItem === 'until' ? (
         <ListGroup.Item variant="primary">
-          <div className="listItem">
+          <div data-testid={testID} variant="primary" className="listItem">
             {event.title}
             {' '}
             -
+            {' '}
             {getDate(event.date)}
             {' '}
             left!
             <Button
               className="listButton"
+              data-testid="until-button"
               variant="outline-primary"
               onClick={() => onRemoveClick()}
             >
-              Edit me:
+              Remove
             </Button>
             <Button
               className="listButton"
@@ -57,19 +60,21 @@ const EventItem = function EventItem({
         </ListGroup.Item>
       ) : (
         <ListGroup.Item variant="danger">
-          <div className="listItem">
+          <div data-testid={testID} variant="danger" className="listItem">
             {event.title}
             {' '}
             -
+            {' '}
             {getDate(event.date)}
             {' '}
             since!
             <Button
               className="listButton"
+              data-testid="since-button"
               variant="outline-primary"
               onClick={() => onRemoveClick()}
             >
-              Edit me:
+              Remove
             </Button>
           </div>
         </ListGroup.Item>
@@ -86,6 +91,7 @@ EventItem.propTypes = {
   typeItem: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
   onCompletedClick: PropTypes.func.isRequired,
+  testID: PropTypes.string.isRequired,
 };
 
 export default EventItem;

@@ -4,7 +4,18 @@ from flask import jsonify, request, Blueprint, render_template, redirect, url_fo
 from flask_login.utils import login_required
 from flask_login import current_user, login_user, logout_user
 
-from resources import db, LoginForm, RegistrationForm, Person, get_mock_events, Event
+from resources import (
+    db,
+    LoginForm,
+    RegistrationForm,
+    Person,
+    get_mock_events,
+    Event,
+    get_event_list,
+    get_dates_titles,
+    to_add_events,
+    to_delete_events,
+)
 from app_setup import app, login_manager
 
 bp = Blueprint("bp", __name__, template_folder="./build")
