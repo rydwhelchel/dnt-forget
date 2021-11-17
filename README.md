@@ -18,3 +18,6 @@ pylint:
 `E1101` no-member, `C0413` wrong-import-position, `W1508` invalid-envvar-default, `R0903`, `W0603` global-statement
 
 Standard exclusions.
+
+`C0200` enumerate : At times, we intend to use `range(len(` instead of `enumerate`
+ 
