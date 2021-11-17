@@ -16,7 +16,7 @@ def get_dates_titles(requested_data):
     return event_dates, event_titles
 
 
-def to_delete_events(existing_titles, events):
+def to_delete_events(existing_titles, event_titles, events):
     return [
         (title, event)
         for title, event in zip(existing_titles, events)
@@ -24,7 +24,7 @@ def to_delete_events(existing_titles, events):
     ]
 
 
-def to_add_events(event_titles, event_dates):
+def to_add_events(event_titles, event_dates, existing_titles):
     return [
         (title, date)
         for title, date in zip(event_titles, event_dates)
