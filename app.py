@@ -28,8 +28,6 @@ def index():
     DATA = {"current_user": current_user.username}
     events = Event.query.filter_by(username=current_user.username).all()
     event_list = get_event_list(events)
-    for i in range(len(events)):
-        event_list.append({"title": events[i].title, "date": events[i].date})
     DATA["events"] = event_list
     data = json.dumps(DATA)
     return render_template(
@@ -138,7 +136,6 @@ def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
     to_delete = to_delete_events(event_titles, events)
     for event in to_delete:
         db.session.delete(event[1])
-
     db.session.commit()
 
 
