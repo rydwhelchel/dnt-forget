@@ -63,23 +63,10 @@ const EventList = function EventList({ events }) {
     const dateMonth = newStartDate.getMonth() + 1;
     const dateDay = newStartDate.getDate();
     const newDateString = `${dateYears}-${dateMonth < 10 ? `0${dateMonth}` : dateMonth}-${dateDay < 10 ? `0${dateDay}` : dateDay}T${dateHours < 10 ? `0${dateHours}` : dateHours}:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
-    // let updatedEvents = [];
-    // updatedEvents = eventsList.slice();
-    // // for (let j = 0; j < updatedEvents.length; j += 1) {
-    // //   if (updatedEvents[j].title === thisEventObject.title) {
-    // //     delete updatedEvents[j];
-    // //   }
-    // // }
-    // console.log(thisEventObject.date);
-    // setEventsList([...updatedEvents, { title: thisEventObject.title, date: newDateString }]);
     thisEventObject.date = newDateString;
-<<<<<<< HEAD
     thisEventObject.completed = true;
     setEventsList([...eventsList]);
     updateEvents = true;
-=======
-    setEventsList([...eventsList]);
->>>>>>> 55b477cba29f0b8b3e5f30c0fdf9a602996a7430
   };
 
   useEffect(() => {
