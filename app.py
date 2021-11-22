@@ -30,10 +30,7 @@ def index():
     event_list = get_event_list(events)
     DATA["events"] = event_list
     data = json.dumps(DATA)
-    return render_template(
-        "index.html",
-        data=data,
-    )
+    return render_template("index.html", data=data,)
 
 
 app.register_blueprint(bp)
@@ -114,7 +111,6 @@ def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
     existing_titles = [
         event.title for event in Event.query.filter_by(username=user).all()
     ]
-
 
     to_add = to_add_events(event_titles, event_dates, existing_titles)
 
