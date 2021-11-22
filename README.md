@@ -1,6 +1,6 @@
 # DNT Forget -- An event reminder app
 
-Website: http://dnt-forget-groupproject.herokuapp.com/login?next=%2F
+Website (Sprint 1): http://dnt-forget-groupproject.herokuapp.com/
 
 ### Linting
 Python files are linted with `pylint` and formatted with `Black`. Javascript files are linted with `ESLint` using Airbnb rules.
