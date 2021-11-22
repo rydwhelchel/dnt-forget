@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../static/List.css';
 
 let updateEvents = true;
+
 const EventList = function EventList({ events }) {
   const [eventsList, setEventsList] = useState(events);
   const [untilEvents, setUntilEvents] = useState([]);
