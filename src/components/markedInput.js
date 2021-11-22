@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import editorContext from "../editorContext";
 
+
 const Container = styled.div`
   width: 50%;
   height: 100%;
@@ -28,17 +29,53 @@ const TextArea = styled.textarea`
 `;
 
 export function MarkedInput(props) {
-    const { setMarkdownText } = useContext(editorContext);
+  const { markdownText, setMarkdownText } = useContext(editorContext);
 
-    const onInputChange = e => {
-        const newValue = e.currentTarget.value;
-        setMarkdownText(newValue);
-    };
+  // const markdownText = "hello its me"
 
-    return (
-        <Container>
-            <Title>Markdown Text</Title>
-            <TextArea onChange={onInputChange} />
-        </Container>
-    );
+  const onInputChange = e => {
+    const newValue = e.currentTarget.value;
+    setMarkdownText(newValue);
+  };
+
+
+
+  const onClickIt = e => {
+    const requestData = { text: "" };
+    fetch('/details', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setMarkdownText(data.text);
+      });
+  };
+  // const onClickButton = () => {
+  //   const requestData = { text: "" };
+  //   fetch('/details', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(requestData),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setMarkdownText(data.text);
+  //     });
+  // };
+
+  return (
+    <Container>
+      <button type="button" onClick={onClickIt}>prev_text</button>
+      <Title>Markdown Text</Title>
+
+      <TextArea value={markdownText} onChange={onInputChange}>
+      </TextArea>
+    </Container>
+  );
 }

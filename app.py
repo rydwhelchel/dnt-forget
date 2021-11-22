@@ -30,6 +30,8 @@ def index():
     events = Event.query.filter_by(username=current_user.username).all()
     event_list = get_event_list(events)
     DATA["events"] = event_list
+    pretext = EventText.query.filter_by(username=current_user.username).all()
+    DATA["pretext"] = pretext[0].text
     data = json.dumps(DATA)
     return render_template("index.html", data=data,)
 
@@ -105,6 +107,16 @@ def save():
 def update_db_text(username, this_text, this_title):
     db.session.add(EventText(title=this_title, username=username, text=this_text))
     db.session.commit()
+    print(this_text, 2)
+
+
+@app.route("/details", methods=["GET", "POST"])
+def details():
+    # requested_data = request.json.get("text")
+    pretext = EventText.query.all()
+    print(len(pretext))
+    pretext = pretext[-1].text
+    return {"text": pretext}
 
 
 @app.route("/savetext", methods=["POST"])
@@ -114,10 +126,11 @@ def savetext():
     in the database.
     """
     requested_data = request.json.get("text")
-    this_text, this_event = requested_data["text"], requested_data["event"]
+    this_text = requested_data
+    this_title = "fakeEvent"
     username = current_user.username
-    update_db_text(username, this_text, this_event)
-    return
+    update_db_text(username, this_text, this_title)
+    return {"message": ""}
 
 
 def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
