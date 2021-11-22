@@ -17,6 +17,7 @@ from resources import (
     to_delete_events,
 )
 from app_setup import app, login_manager
+from resources.models import EventText
 
 bp = Blueprint("bp", __name__, template_folder="./build")
 
@@ -99,6 +100,24 @@ def save():
     for i in events:
         event_jsoned.append({"title": i.title, "date": i.date})
     return {"events": event_jsoned}
+
+
+def update_db_text(username, this_text, this_title):
+    db.session.add(EventText(title=this_title, username=username, text=this_text))
+    db.session.commit()
+
+
+@app.route("/savetext", methods=["POST"])
+def savetext():
+    """
+    Receives JSON data from App.js, saves the event information under the current user
+    in the database.
+    """
+    requested_data = request.json.get("text")
+    this_text, this_event = requested_data["text"], requested_data["event"]
+    username = current_user.username
+    update_db_text(username, this_text, this_event)
+    return
 
 
 def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
