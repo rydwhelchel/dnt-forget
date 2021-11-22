@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import editorContext from "../editorContext";
@@ -27,14 +27,35 @@ const ResultArea = styled.div`
 `;
 
 export function Result(props) {
-    const { markdownText } = useContext(editorContext);
+  const { markdownText } = useContext(editorContext);
+  const [message, setMessage] = useState("");
 
-    return (
-        <Container>
-            <Title>Converted Text</Title>
-            <ResultArea>
-                <ReactMarkdown children={markdownText} remarkPlugins={[remarkGfm]} />,
-            </ResultArea>
-        </Container>
-    );
+  const onClickSavetext = () => {
+    const requestData = { text: markdownText };
+    fetch('/savetext', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setMessage(data.message);
+      });
+  };
+
+
+  return (
+    <Container>
+      <button type="button" onClick={onClickSavetext}>
+        SaveDoc
+      </button>
+      <Title>Converted Text</Title>
+      <p>{message}</p>
+      <ResultArea>
+        <ReactMarkdown children={markdownText} remarkPlugins={[remarkGfm]} />
+      </ResultArea>
+    </Container>
+  );
 }

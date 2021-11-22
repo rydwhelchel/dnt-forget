@@ -27,24 +27,24 @@ const EditorContainer = styled.div`
 `;
 
 function Details() {
-    const [markdownText, setMarkdownText] = useState("");
+  const [markdownText, setMarkdownText] = useState("");
 
-    const contextValue = {
-        markdownText,
-        setMarkdownText
-    };
+  const contextValue = {
+    markdownText,
+    setMarkdownText
+  };
 
-    return (
-        <EditorContext.Provider value={contextValue}>
-            <AppContainer>
-                <Title>Markdown Editor</Title>
-                <EditorContainer>
-                    <MarkedInput />
-                    <Result />
-                </EditorContainer>
-            </AppContainer>
-        </EditorContext.Provider>
-    )
+  return (
+    <EditorContext.Provider value={contextValue}>
+      <AppContainer>
+        <Title>Markdown Editor</Title>
+        <EditorContainer>
+          <MarkedInput />
+          <Result />
+        </EditorContainer>
+      </AppContainer>
+    </EditorContext.Provider>
+  )
 }
 
 export default Details;
