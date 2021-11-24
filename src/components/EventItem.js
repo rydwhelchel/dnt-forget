@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { Link } from 'react-router-dom';
 
 const EventItem = function EventItem({
   event,
@@ -56,6 +57,13 @@ const EventItem = function EventItem({
             >
               Complete Me
             </Button>
+
+            <Link to={"/details/" + event.id}>
+              <Button type="button">
+                details
+              </Button>
+            </Link>
+
           </div>
         </ListGroup.Item>
       ) : (
@@ -85,6 +93,7 @@ const EventItem = function EventItem({
 
 EventItem.propTypes = {
   event: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
   }).isRequired,

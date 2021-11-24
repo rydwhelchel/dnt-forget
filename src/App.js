@@ -12,7 +12,7 @@ export default function App() {
     <div>
       <NavBar />
       <Routes>
-        <Route path='/details' element={<Details />}></Route>
+        <Route path='/details/:eventId' element={<Details />}></Route>
         <Route path='/' element={<Mainpage />}></Route>
       </Routes>
     </div>

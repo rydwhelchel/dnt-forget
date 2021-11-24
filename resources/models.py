@@ -33,15 +33,14 @@ class Event(db.Model):
         return "<Title {}>, Date {}".format(self.title, self.date)
 
 
-class EventText(db.Model):
+class Eventnewtext(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(64))
-    username = db.Column(db.String(64))
+    itsid = db.Column(db.String(64))
     text = db.Column(db.String(8000))
-    # folder=db.Column(db.String(64))
 
     def __repr__(self):
-        return "<Title {}>, Text {}".format(self.title, self.text)
+        return "<Itsid {}>,Text {}".format(self.itsid, self.text)
 
 
-db.create_all()
+with app.app_context():
+    db.create_all()
