@@ -22,7 +22,11 @@ const EventList = function EventList({ events }) {
     const dateYears = startDate.getFullYear();
     const dateMonth = startDate.getMonth() + 1;
     const dateDay = startDate.getDate();
-    const dateString = `${dateYears}-${dateMonth < 10 ? `0${dateMonth}` : dateMonth}-${dateDay < 10 ? `0${dateDay}` : dateDay}T${dateHours < 10 ? `0${dateHours}` : dateHours}:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
+    const dateString = `${dateYears}-${
+      dateMonth < 10 ? `0${dateMonth}` : dateMonth
+    }-${dateDay < 10 ? `0${dateDay}` : dateDay}T${
+      dateHours < 10 ? `0${dateHours}` : dateHours
+    }:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
     setEventsList([...eventsList, { title: titleVal, date: dateString }]);
     formTitleRef.current.value = '';
   };
@@ -62,7 +66,11 @@ const EventList = function EventList({ events }) {
     const dateYears = newStartDate.getFullYear();
     const dateMonth = newStartDate.getMonth() + 1;
     const dateDay = newStartDate.getDate();
-    const newDateString = `${dateYears}-${dateMonth < 10 ? `0${dateMonth}` : dateMonth}-${dateDay < 10 ? `0${dateDay}` : dateDay}T${dateHours < 10 ? `0${dateHours}` : dateHours}:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
+    const newDateString = `${dateYears}-${
+      dateMonth < 10 ? `0${dateMonth}` : dateMonth
+    }-${dateDay < 10 ? `0${dateDay}` : dateDay}T${
+      dateHours < 10 ? `0${dateHours}` : dateHours
+    }:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
     thisEventObject.date = newDateString;
     thisEventObject.completed = true;
     setEventsList([...eventsList]);
@@ -86,13 +94,20 @@ const EventList = function EventList({ events }) {
         }
       });
       // Sorting events
-      listOfUntilEvents.sort((a, b) => parseFloat(Date.parse(a.date) - Date.parse(b.date)));
-      listOfSinceEvents.sort((a, b) => parseFloat(Date.parse(b.date) - Date.parse(a.date)));
+      listOfUntilEvents.sort((a, b) =>
+        parseFloat(Date.parse(a.date) - Date.parse(b.date))
+      );
+      listOfSinceEvents.sort((a, b) =>
+        parseFloat(Date.parse(b.date) - Date.parse(a.date))
+      );
 
       setUntilEvents(listOfUntilEvents);
       setSinceEvents(listOfSinceEvents);
     };
-    if (updateEvents || sinceEvents.length + untilEvents.length !== eventsList.length) {
+    if (
+      updateEvents ||
+      sinceEvents.length + untilEvents.length !== eventsList.length
+    ) {
       organizeEvents(eventsList);
       updateEvents = false;
     }
@@ -149,7 +164,7 @@ EventList.propTypes = {
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
-    }),
+    })
   ).isRequired,
 };
 
