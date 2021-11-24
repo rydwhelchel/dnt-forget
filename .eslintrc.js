@@ -1,9 +1,12 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2020: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb'],
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -11,10 +14,9 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: [
+    'react',
+  ],
   rules: {
-    'react/jsx-filename-extension': 'off',
-    'react/no-array-index-key': 'off',
-    'react-hooks/exhaustive-deps': 'off',
   },
 };

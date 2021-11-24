@@ -27,7 +27,7 @@ class Event(db.Model):
     title = db.Column(db.String(64))
     username = db.Column(db.String(64))
     date = db.Column(db.String(64))
-    # folder=db.Column(db.String(64))
+    folder=db.Column(db.String(64))
 
     def __repr__(self):
         return "<Title {}>, Date {}".format(self.title, self.date)

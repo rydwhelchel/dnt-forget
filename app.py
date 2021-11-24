@@ -9,7 +9,6 @@ from resources import (
     LoginForm,
     RegistrationForm,
     Person,
-    get_mock_events,
     Event,
     get_event_list,
     get_dates_titles,
@@ -21,9 +20,7 @@ from resources.models import Eventnewtext
 
 bp = Blueprint("bp", __name__, template_folder="./build")
 
-# Not great practice to keep 2 routes on one method, should change in release
 @bp.route("/")
-@bp.route("/index")
 @login_required
 def index():
     DATA = {"current_user": current_user.username}
@@ -103,8 +100,8 @@ def save():
 
 
 def update_db_text(this_text, this_id):
-    toadd = Eventnewtext(itsid=this_id, text=this_text)
-    db.session.add(toadd)
+    to_add = Eventnewtext(itsid=this_id, text=this_text)
+    db.session.add(to_add)
     db.session.commit()
 
 
