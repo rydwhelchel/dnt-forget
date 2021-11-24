@@ -114,9 +114,12 @@ const EventList = function EventList({ events }) {
   }, [eventsList, sinceEvents, untilEvents]);
 
   return (
-    <div className="listContainer">
+    <div>
       <ListGroup className="untilList">
-        <ListGroup.Item variant="secondary">
+        <ListGroup.Item
+          style={{ backgroundColor: '#909090' }}
+          variant="secondary"
+        >
           <h1>Save an event for later:</h1>
           <input type="text" ref={formTitleRef} placeholder="Enter title" />
           <DatePicker
