@@ -31,7 +31,7 @@ export function Result(props) {
   const [message, setMessage] = useState("");
 
   const onClickSavetext = () => {
-    const requestData = { text: markdownText };
+    const requestData = { text: markdownText, cur: window.location.href };
     fetch('/savetext', {
       method: 'POST',
       headers: {

@@ -17,7 +17,7 @@ from resources import (
     to_delete_events,
 )
 from app_setup import app, login_manager
-from resources.models import EventText
+from resources.models import Eventnewtext
 
 bp = Blueprint("bp", __name__, template_folder="./build")
 
@@ -30,8 +30,6 @@ def index():
     events = Event.query.filter_by(username=current_user.username).all()
     event_list = get_event_list(events)
     DATA["events"] = event_list
-    pretext = EventText.query.filter_by(username=current_user.username).all()
-    DATA["pretext"] = pretext[0].text
     data = json.dumps(DATA)
     return render_template("index.html", data=data,)
 
@@ -104,32 +102,29 @@ def save():
     return {"events": event_jsoned}
 
 
-def update_db_text(username, this_text, this_title):
-    db.session.add(EventText(title=this_title, username=username, text=this_text))
+def update_db_text(this_text, this_id):
+    toadd = Eventnewtext(itsid=this_id, text=this_text)
+    db.session.add(toadd)
     db.session.commit()
-    print(this_text, 2)
 
 
-@app.route("/details", methods=["GET", "POST"])
-def details():
-    # requested_data = request.json.get("text")
-    pretext = EventText.query.all()
-    print(len(pretext))
-    pretext = pretext[-1].text
+@app.route("/details/<eventid>", methods=["GET", "POST"])
+def details(eventid):
+    pretext = Eventnewtext.query.filter_by(itsid=eventid).all()
+    if not pretext:
+        return {"text": ""}
+    else:
+        pretext = pretext[-1].text
     return {"text": pretext}
 
 
 @app.route("/savetext", methods=["POST"])
 def savetext():
-    """
-    Receives JSON data from App.js, saves the event information under the current user
-    in the database.
-    """
-    requested_data = request.json.get("text")
-    this_text = requested_data
-    this_title = "fakeEvent"
-    username = current_user.username
-    update_db_text(username, this_text, this_title)
+    this_text = request.json.get("text")
+    this_id = request.json.get("cur")
+    this_id = this_id.split("/")
+    this_id = this_id[-1]
+    update_db_text(this_text, this_id)
     return {"message": ""}
 
 

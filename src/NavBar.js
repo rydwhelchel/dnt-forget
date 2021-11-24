@@ -8,9 +8,9 @@ function NavBar() {
             <li>
                 <Link to="/">EventList</Link>
             </li>
-            <li>
-                <Link to="/details">Details</Link>
-            </li>
+            {/* <li>
+                <Link to="/login">Login</Link>
+            </li> */}
         </ul>
     )
 }

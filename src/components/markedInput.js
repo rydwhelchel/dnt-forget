@@ -42,7 +42,8 @@ export function MarkedInput(props) {
 
   const onClickIt = e => {
     const requestData = { text: "" };
-    fetch('/details', {
+    // fetch('/details/:eventid', {
+    fetch(window.location.href, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
