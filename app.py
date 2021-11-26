@@ -20,6 +20,7 @@ from resources.models import Eventnewtext
 
 bp = Blueprint("bp", __name__, template_folder="./build")
 
+
 @bp.route("/")
 @login_required
 def index():
@@ -95,7 +96,7 @@ def save():
     events = Event.query.filter_by(username=current_user.username).all()
     event_jsoned = []
     for i in events:
-        event_jsoned.append({"title": i.title, "date": i.date})
+        event_jsoned.append({"id": i.id, "title": i.title, "date": i.date})
     return {"events": event_jsoned}
 
 
