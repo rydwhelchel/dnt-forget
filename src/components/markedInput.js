@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import editorContext from "../editorContext";
-
+import Dictaphone from "../Dictaphone";
+import Button from 'react-bootstrap/Button';
 
 const Container = styled.div`
   width: 50%;
@@ -74,7 +75,7 @@ export function MarkedInput(props) {
     <Container>
       <button type="button" onClick={onClickIt}>prev_text</button>
       <Title>Markdown Text</Title>
-
+      <Dictaphone />
       <TextArea value={markdownText} onChange={onInputChange}>
       </TextArea>
     </Container>

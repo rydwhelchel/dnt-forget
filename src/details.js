@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { MarkedInput } from "./components/markedInput";
 import { Result } from "./components/result";
 import EditorContext from "./editorContext";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const AppContainer = styled.div`
   width: 100%;
