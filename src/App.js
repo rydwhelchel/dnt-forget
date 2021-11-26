@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Details from './details';
 import './style.css';
 import Mainpage from './MainPage';
+import Dictaphone from './Dictaphone';
 
 export default function App() {
   const args = JSON.parse(document.getElementById('data').text);
