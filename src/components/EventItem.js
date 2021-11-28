@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'react-bootstrap/Button';
-import ListGroup from 'react-bootstrap/ListGroup';
+import { Button, ListGroup, ButtonGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const EventItem = function EventItem({
@@ -35,47 +34,39 @@ const EventItem = function EventItem({
       {typeItem === 'until' ? (
         <ListGroup.Item variant="primary">
           <div data-testid={testID} variant="primary" className="listItem">
-            {event.title}
-            {' '}
-            -
-            {' '}
-            {getDate(event.date)}
-            {' '}
-            left!
-            <Button
-              className="listButton"
-              data-testid="until-button"
-              variant="outline-primary"
-              onClick={() => onRemoveClick()}
-            >
-              Remove
-            </Button>
-            <Button
-              className="listButton"
-              variant="outline-secondary"
-              onClick={() => onCompletedClick()}
-            >
-              Complete Me
-            </Button>
-
-            <Link to={"/details/" + event.id}>
-              <Button type="button">
-                details
+            {event.title} - {getDate(event.date)} left!
+            <ButtonGroup>
+              <Button
+                className="listButton"
+                data-testid="until-button"
+                variant="outline-primary"
+                onClick={() => onRemoveClick()}
+              >
+                Remove
               </Button>
-            </Link>
-
+              <Button
+                className="listButton"
+                variant="outline-secondary"
+                onClick={() => onCompletedClick()}
+              >
+                Complete Me
+              </Button>
+              <Link to={'/details/' + event.id}>
+                <Button
+                  variant="outline-info"
+                  className="listButton"
+                  type="button"
+                >
+                  Details
+                </Button>
+              </Link>
+            </ButtonGroup>
           </div>
         </ListGroup.Item>
       ) : (
         <ListGroup.Item variant="danger">
           <div data-testid={testID} variant="danger" className="listItem">
-            {event.title}
-            {' '}
-            -
-            {' '}
-            {getDate(event.date)}
-            {' '}
-            since!
+            {event.title} - {getDate(event.date)} since!
             <Button
               className="listButton"
               data-testid="since-button"
