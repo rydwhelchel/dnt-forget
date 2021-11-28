@@ -8,7 +8,12 @@ import '../static/List.css';
 
 let updateEvents = true;
 
-const EventList = function EventList({ events, changeEvents, currFolder }) {
+const EventList = function EventList({
+  events,
+  changeEvents,
+  folders,
+  currFolder,
+}) {
   const [eventsList, setEventsList] = useState(events);
   const [untilEvents, setUntilEvents] = useState([]);
   const [sinceEvents, setSinceEvents] = useState([]);
@@ -116,9 +121,26 @@ const EventList = function EventList({ events, changeEvents, currFolder }) {
     }
     changeEvents(eventsList);
   }, [eventsList, sinceEvents, untilEvents]);
-
+  let currFolderName = '';
+  folders.map((folder) => {
+    if (folder.id === currFolder) {
+      currFolderName = folder.title;
+    } else if (currFolder === 0) {
+      currFolderName = 'No folder!';
+    }
+  });
   return (
-    <div>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gridTemplateRows: '50px 1fr',
+        alignContent: 'top',
+      }}
+    >
+      <div className="titleBox">
+        <h1 className="folderTitle">{currFolderName}</h1>
+      </div>
       <ListGroup className="list">
         <ListGroup.Item
           style={{ width: '100%', backgroundColor: '#909090' }}
