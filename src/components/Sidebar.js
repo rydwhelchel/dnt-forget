@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   ProSidebar,
   Menu,
@@ -17,8 +17,44 @@ import {
   faSignOutAlt,
   faCalendarWeek,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  FormControl,
+  InputGroup,
+  Button,
+  Popover,
+  OverlayTrigger,
+} from 'react-bootstrap';
 
-const Sidebar = () => {
+const Sidebar = ({ folders, changeFolders, changeCurrFolder }) => {
+  const folderInput = useRef(null);
+
+  const newFolderClick = () => {
+    let requestData = { title: folderInput.current.value };
+    fetch('/save_folder', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        changeFolders(data.folders);
+      });
+
+    //closes popover
+    document.body.click();
+  };
+
+  const folderPopover = (
+    <Popover id="newFolderPopover">
+      <InputGroup style={{ width: 400 }}>
+        <FormControl placeholder="Enter new folder title" ref={folderInput} />
+        <Button onClick={newFolderClick}>Create Folder</Button>
+      </InputGroup>
+    </Popover>
+  );
+
   return (
     <ProSidebar>
       <SidebarHeader className="listHeader">
@@ -36,16 +72,30 @@ const Sidebar = () => {
       </SidebarHeader>
       <SidebarContent>
         <Menu iconShape="round">
-          <MenuItem icon={<FontAwesomeIcon icon={faHome} />}>
+          <MenuItem
+            onClick={() => changeCurrFolder(0)}
+            icon={<FontAwesomeIcon icon={faHome} />}
+          >
             <Link to="/">Home</Link>
           </MenuItem>
         </Menu>
         <Menu iconShape="round">
           <SubMenu title="Folders" icon={<FontAwesomeIcon icon={faFolder} />}>
-            <MenuItem>Birthdays</MenuItem>
-            <MenuItem>Assignments</MenuItem>
-            <MenuItem>Something Else</MenuItem>
-            <MenuItem>Something Else</MenuItem>
+            {folders.map((folder) => (
+              <MenuItem onClick={() => changeCurrFolder(folder.id)}>
+                {folder.title}
+              </MenuItem>
+            ))}
+            <MenuItem>
+              <OverlayTrigger
+                trigger="click"
+                placement="right"
+                overlay={folderPopover}
+                rootClose="true"
+              >
+                <Button>Create new folder</Button>
+              </OverlayTrigger>
+            </MenuItem>
           </SubMenu>
         </Menu>
       </SidebarContent>
