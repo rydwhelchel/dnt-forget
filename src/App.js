@@ -4,6 +4,7 @@ import Details from './details';
 import './style.css';
 import Mainpage from './MainPage';
 import Sidebar from './components/Sidebar';
+import Dictaphone from './Dictaphone';
 
 export default function App() {
   const args = JSON.parse(document.getElementById('data').text);

@@ -23,6 +23,7 @@ from resources.models import Eventnewtext
 
 bp = Blueprint("bp", __name__, template_folder="./build")
 
+
 @bp.route("/")
 @login_required
 def index():
