@@ -6,6 +6,8 @@ import EventItem from './EventItem';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../static/List.css';
 
+import { useAlert } from 'react-alert';
+
 let updateEvents = true;
 
 const EventList = function EventList({
@@ -18,6 +20,7 @@ const EventList = function EventList({
   const [untilEvents, setUntilEvents] = useState([]);
   const [sinceEvents, setSinceEvents] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
+  const alert = useAlert();
   const formTitleRef = useRef(null);
 
   const onClickAdd = () => {
@@ -37,6 +40,7 @@ const EventList = function EventList({
       { folder: currFolder, title: titleVal, date: dateString },
     ]);
     formTitleRef.current.value = '';
+    alert.show('Event has been added.');
   };
 
   const onClickDelete = (event) => {
