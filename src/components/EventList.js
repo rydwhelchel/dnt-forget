@@ -119,9 +119,9 @@ const EventList = function EventList({ events, changeEvents, currFolder }) {
 
   return (
     <div>
-      <ListGroup className="untilList">
+      <ListGroup className="list">
         <ListGroup.Item
-          style={{ backgroundColor: '#909090' }}
+          style={{ width: '100%', backgroundColor: '#909090' }}
           variant="secondary"
         >
           <h1>Save an event for later:</h1>
@@ -146,6 +146,7 @@ const EventList = function EventList({ events, changeEvents, currFolder }) {
                 typeItem="until"
                 testID={`event-${event.id}`}
                 event={event}
+                style={{ width: '100%' }}
                 onRemoveClick={() => onClickDelete(event)}
                 onCompletedClick={() => onCompletion(event)}
               />
@@ -164,8 +165,6 @@ const EventList = function EventList({ events, changeEvents, currFolder }) {
                 <></>
               )
             )}
-      </ListGroup>
-      <ListGroup className="sinceList">
         {currFolder === 0
           ? sinceEvents.map((event) => (
               <EventItem

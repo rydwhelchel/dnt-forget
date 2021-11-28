@@ -11,7 +11,7 @@ function Mainpage({ currFolder, changeEvents, events }) {
   // Pass down onFolderClick to EventList
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       {/* <Sidebar className="sidebar" /> */}
       <div className="listContainer">
         <EventList
