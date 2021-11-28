@@ -10,12 +10,15 @@ from resources import (
     RegistrationForm,
     Person,
     Event,
+    Folder,
     get_event_list,
-    get_dates_titles,
+    get_dates_titles_folders,
     to_add_events,
     to_delete_events,
+    get_folder_list,
 )
 from app_setup import app, login_manager
+from resources.helper import get_folder_list
 from resources.models import Eventnewtext
 
 bp = Blueprint("bp", __name__, template_folder="./build")
@@ -24,11 +27,15 @@ bp = Blueprint("bp", __name__, template_folder="./build")
 @login_required
 def index():
     DATA = {"current_user": current_user.username}
-    events = Event.query.filter_by(username=current_user.username).all()
+    username=current_user.username
+    events = Event.query.filter_by(username=username).all()
     event_list = get_event_list(events)
+    folders = Folder.query.filter_by(username=username).all()
+    folder_list = get_folder_list(folders)
     DATA["events"] = event_list
+    DATA["folders"] = folder_list
     data = json.dumps(DATA)
-    return render_template("index.html", data=data,)
+    return render_template("index.html", data=data)
 
 
 app.register_blueprint(bp)
@@ -83,21 +90,32 @@ def save():
     Receives JSON data from App.js, saves the event information under the current user
     in the database.
     """
-
     requested_data = request.json.get("event")
-    event_dates, event_titles = get_dates_titles(requested_data)  # request
+    event_dates, event_titles, event_folders = get_dates_titles_folders(requested_data)  # request
     event_completion = []
     for i in request.json.get("event"):
         event_completion.append(i.get("completed", False))
-
     username = current_user.username
-    update_db_ids_for_user(username, event_titles, event_dates, event_completion)
+    update_db_ids_for_user(username, event_titles, event_dates, event_folders, event_completion)
     events = Event.query.filter_by(username=current_user.username).all()
-    event_jsoned = []
-    for i in events:
-        event_jsoned.append({"title": i.title, "date": i.date})
+    event_jsoned = get_event_list(events)
     return {"events": event_jsoned}
 
+@app.route("/save_folder", methods=["POST"])
+def save_folder():
+    """
+    Receives JSON data from App.js, saves the event information under the current user
+    in the database.
+    """
+
+    requested_title = request.json.get("title")
+    username = current_user.username
+    new_folder = Folder(username=username, title=requested_title)
+    db.session.add(new_folder)
+    db.session.commit()
+    folders = Folder.query.filter_by(username=username).all()
+    folder_list = get_folder_list(folders)
+    return {"folders": folder_list}
 
 def update_db_text(this_text, this_id):
     to_add = Eventnewtext(itsid=this_id, text=this_text)
@@ -125,7 +143,7 @@ def savetext():
     return {"message": ""}
 
 
-def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
+def update_db_ids_for_user(user, event_titles, event_dates, event_folders, event_completion):
     """
     Updates the DB with new or removed events.
     @param username: the username of the current user
@@ -136,15 +154,15 @@ def update_db_ids_for_user(user, event_titles, event_dates, event_completion):
         event.title for event in Event.query.filter_by(username=user).all()
     ]
 
-    to_add = to_add_events(event_titles, event_dates, existing_titles)
+    to_add = to_add_events(event_titles, event_dates, event_folders, existing_titles)
 
     for event in to_add:
-        db.session.add(Event(title=event[0], username=user, date=event[1]))
+        db.session.add(Event(title=event[0], username=user, date=event[1], folder=event[2]))
 
     to_update = [
-        (completion, titles, event_date)
-        for completion, titles, event_date in zip(
-            event_completion, event_titles, event_dates
+        (completion, titles, event_date, event_folder)
+        for completion, titles, event_date, event_folder in zip(
+            event_completion, event_titles, event_dates, event_folders
         )
         if completion
     ]

@@ -27,7 +27,7 @@ class Event(db.Model):
     title = db.Column(db.String(64))
     username = db.Column(db.String(64))
     date = db.Column(db.String(64))
-    folder=db.Column(db.String(64))
+    folder = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return "<Title {}>, Date {}".format(self.title, self.date)
@@ -41,6 +41,11 @@ class Eventnewtext(db.Model):
     def __repr__(self):
         return "<Itsid {}>,Text {}".format(self.itsid, self.text)
 
+class Folder(db.Model):
+    """Each folder stores events. The events themselves contain the folder id which they belong to."""
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64))
+    title = db.Column(db.String(128))
 
 with app.app_context():
     db.create_all()

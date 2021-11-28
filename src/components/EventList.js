@@ -8,7 +8,7 @@ import '../static/List.css';
 
 let updateEvents = true;
 
-const EventList = function EventList({ events }) {
+const EventList = function EventList({ events, changeEvents, currFolder }) {
   const [eventsList, setEventsList] = useState(events);
   const [untilEvents, setUntilEvents] = useState([]);
   const [sinceEvents, setSinceEvents] = useState([]);
@@ -27,7 +27,10 @@ const EventList = function EventList({ events }) {
     }-${dateDay < 10 ? `0${dateDay}` : dateDay}T${
       dateHours < 10 ? `0${dateHours}` : dateHours
     }:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
-    setEventsList([...eventsList, { title: titleVal, date: dateString }]);
+    setEventsList([
+      ...eventsList,
+      { folder: currFolder, title: titleVal, date: dateString },
+    ]);
     formTitleRef.current.value = '';
   };
 
@@ -111,6 +114,7 @@ const EventList = function EventList({ events }) {
       organizeEvents(eventsList);
       updateEvents = false;
     }
+    changeEvents(eventsList);
   }, [eventsList, sinceEvents, untilEvents]);
 
   return (
@@ -135,28 +139,58 @@ const EventList = function EventList({ events }) {
             Save
           </button>
         </ListGroup.Item>
-        {untilEvents.map((event) => (
-          <EventItem
-            key={event.id}
-            typeItem="until"
-            testID={`event-${event.id}`}
-            event={event}
-            onRemoveClick={() => onClickDelete(event)}
-            onCompletedClick={() => onCompletion(event)}
-          />
-        ))}
+        {currFolder === 0
+          ? untilEvents.map((event) => (
+              <EventItem
+                key={event.id}
+                typeItem="until"
+                testID={`event-${event.id}`}
+                event={event}
+                onRemoveClick={() => onClickDelete(event)}
+                onCompletedClick={() => onCompletion(event)}
+              />
+            ))
+          : untilEvents.map((event) =>
+              event.folder === currFolder ? (
+                <EventItem
+                  key={event.id}
+                  typeItem="until"
+                  testID={`event-${event.id}`}
+                  event={event}
+                  onRemoveClick={() => onClickDelete(event)}
+                  onCompletedClick={() => onCompletion(event)}
+                />
+              ) : (
+                <></>
+              )
+            )}
       </ListGroup>
       <ListGroup className="sinceList">
-        {sinceEvents.map((event) => (
-          <EventItem
-            key={event.id}
-            typeItem="since"
-            testID={`event-${event.id}`}
-            event={event}
-            onRemoveClick={() => onClickDelete(event)}
-            onCompletedClick={() => onCompletion(event)}
-          />
-        ))}
+        {currFolder === 0
+          ? sinceEvents.map((event) => (
+              <EventItem
+                key={event.id}
+                typeItem="since"
+                testID={`event-${event.id}`}
+                event={event}
+                onRemoveClick={() => onClickDelete(event)}
+                onCompletedClick={() => onCompletion(event)}
+              />
+            ))
+          : sinceEvents.map((event) =>
+              event.folder === currFolder ? (
+                <EventItem
+                  key={event.id}
+                  typeItem="since"
+                  testID={`event-${event.id}`}
+                  event={event}
+                  onRemoveClick={() => onClickDelete(event)}
+                  onCompletedClick={() => onCompletion(event)}
+                />
+              ) : (
+                <></>
+              )
+            )}
       </ListGroup>
     </div>
   );

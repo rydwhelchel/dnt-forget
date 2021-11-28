@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import EventList from './components/EventList';
 import Sidebar from './components/Sidebar';
 import './static/List.css';
 
-function Mainpage({ args }) {
+function Mainpage({ currFolder, changeEvents, events }) {
   // Store folders state here
   // Add new folder function here
-  // Pass down current folder state to EventList
+  // Filter args.events with currFolder
   // Pass down all folders state to Sidebar
   // Pass down onFolderClick to EventList
+
   return (
-    <div className="pageContainer">
-      <Sidebar className="sidebar" />
+    <div>
+      {/* <Sidebar className="sidebar" /> */}
       <div className="listContainer">
-        <EventList events={args.events} />
+        <EventList
+          currFolder={currFolder}
+          changeEvents={changeEvents}
+          events={events}
+        />
       </div>
     </div>
   );
