@@ -6,10 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter } from 'react-router-dom';
 
-const rootElement = document.getElementById("root");
+import { Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
+
+const rootElement = document.getElementById('root');
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <AlertProvider template={AlertTemplate}>
+      <App />
+    </AlertProvider>
   </BrowserRouter>,
   rootElement
 );

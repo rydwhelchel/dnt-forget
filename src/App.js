@@ -63,6 +63,7 @@ export default function App() {
           element={
             <Mainpage
               currFolder={currFolder}
+              folders={folders}
               changeEvents={changeEvents}
               events={events}
             />

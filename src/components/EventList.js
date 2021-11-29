@@ -6,13 +6,21 @@ import EventItem from './EventItem';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../static/List.css';
 
+import { useAlert } from 'react-alert';
+
 let updateEvents = true;
 
-const EventList = function EventList({ events, changeEvents, currFolder }) {
+const EventList = function EventList({
+  events,
+  changeEvents,
+  folders,
+  currFolder,
+}) {
   const [eventsList, setEventsList] = useState(events);
   const [untilEvents, setUntilEvents] = useState([]);
   const [sinceEvents, setSinceEvents] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
+  const alert = useAlert();
   const formTitleRef = useRef(null);
 
   const onClickAdd = () => {
@@ -32,6 +40,7 @@ const EventList = function EventList({ events, changeEvents, currFolder }) {
       { folder: currFolder, title: titleVal, date: dateString },
     ]);
     formTitleRef.current.value = '';
+    alert.show('Event has been added.');
   };
 
   const onClickDelete = (event) => {
@@ -116,9 +125,26 @@ const EventList = function EventList({ events, changeEvents, currFolder }) {
     }
     changeEvents(eventsList);
   }, [eventsList, sinceEvents, untilEvents]);
-
+  let currFolderName = '';
+  folders.map((folder) => {
+    if (folder.id === currFolder) {
+      currFolderName = folder.title;
+    } else if (currFolder === 0) {
+      currFolderName = 'No folder!';
+    }
+  });
   return (
-    <div>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gridTemplateRows: '50px 1fr',
+        alignContent: 'top',
+      }}
+    >
+      <div className="titleBox">
+        <h1 className="folderTitle">{currFolderName}</h1>
+      </div>
       <ListGroup className="list">
         <ListGroup.Item
           style={{ width: '100%', backgroundColor: '#909090' }}

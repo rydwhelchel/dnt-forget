@@ -57,7 +57,7 @@ const Sidebar = ({ folders, changeFolders, changeCurrFolder }) => {
 
   return (
     <ProSidebar>
-      <SidebarHeader className="listHeader">
+      <SidebarHeader className="sidebarHeader">
         <FontAwesomeIcon style={{ marginTop: '7px' }} icon={faCalendarWeek} />
         <div
           style={{
@@ -66,7 +66,7 @@ const Sidebar = ({ folders, changeFolders, changeCurrFolder }) => {
             paddingRight: '40px',
           }}
         >
-          <h1 className="sidebarHeader">Dnt Forget</h1>
+          <h1 className="sidebarHeadText">Dnt Forget</h1>
           <div></div>
         </div>
       </SidebarHeader>
