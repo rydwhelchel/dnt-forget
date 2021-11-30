@@ -68,6 +68,7 @@ const EventList = function EventList({
         setEventsList(data.events);
       });
     updateEvents = true;
+    alert.show('Successfully changed events!');
   };
 
   const onCompletion = (thisEvent) => {
