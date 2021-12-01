@@ -62,12 +62,18 @@ const EventList = function EventList({
 
   const onClickDelete = (event) => {
     let updatedEvents = [];
-    for (let j = 0; j < eventsList.length; j += 1) {
-      if (eventsList[j] === event) {
-        updatedEvents = [...eventsList.slice(0, j), ...eventsList.slice(j + 1)];
+    if (eventsList.length !== 1) {
+      for (let j = 0; j < eventsList.length; j += 1) {
+        if (eventsList[j] === event) {
+          updatedEvents = [
+            ...eventsList.slice(0, j),
+            ...eventsList.slice(j + 1),
+          ];
+        }
       }
     }
     setEventsList(updatedEvents);
+    console.log(updatedEvents);
     addPendingChange({ method: 'remove', event: event });
     changeUpdateStatus(true);
   };
@@ -118,6 +124,8 @@ const EventList = function EventList({
   useEffect(() => {
     const organizeEvents = (listOfEvents) => {
       if (listOfEvents.length === 0) {
+        setUntilEvents([]);
+        setSinceEvents([]);
         return;
       }
       const listOfSinceEvents = [];

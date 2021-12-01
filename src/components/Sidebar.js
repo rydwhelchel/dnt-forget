@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   ProSidebar,
   Menu,
@@ -23,10 +23,18 @@ import {
   Button,
   Popover,
   OverlayTrigger,
+  Modal,
 } from 'react-bootstrap';
 
-const Sidebar = ({ folders, changeFolders, changeCurrFolder }) => {
+const Sidebar = ({
+  folders,
+  changeFolders,
+  changeCurrFolder,
+  deleteFolder,
+}) => {
   const folderInput = useRef(null);
+  const [show, setShow] = useState(false);
+  const [folderToDelete, setFolder] = useState(null);
 
   const newFolderClick = () => {
     let requestData = { title: folderInput.current.value };
@@ -46,6 +54,16 @@ const Sidebar = ({ folders, changeFolders, changeCurrFolder }) => {
     document.body.click();
   };
 
+  const handleShow = (folder) => {
+    setFolder(folder);
+    setShow(true);
+  };
+  const handleDelete = () => {
+    deleteFolder(folderToDelete);
+    setShow(false);
+  };
+  const handleClose = () => setShow(false);
+
   const folderPopover = (
     <Popover id="newFolderPopover">
       <InputGroup style={{ width: 400 }}>
@@ -57,6 +75,32 @@ const Sidebar = ({ folders, changeFolders, changeCurrFolder }) => {
 
   return (
     <ProSidebar>
+      {folderToDelete === null ? (
+        <></>
+      ) : (
+        <Modal show={show}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Folder?</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>
+              Are you sure you want to delete {folderToDelete.title}? Deleting
+              this folder will also delete all events held within.{' '}
+              <p style={{ color: 'red' }}>This change is irreversible!</p>
+            </p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button onClick={() => handleClose()} variant="secondary">
+              Close
+            </Button>
+            <Button onClick={() => handleDelete()} variant="danger">
+              Delete Folder
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
       <SidebarHeader className="sidebarHeader">
         <FontAwesomeIcon style={{ marginTop: '7px' }} icon={faCalendarWeek} />
         <div
@@ -84,6 +128,7 @@ const Sidebar = ({ folders, changeFolders, changeCurrFolder }) => {
             {folders.map((folder) => (
               <MenuItem onClick={() => changeCurrFolder(folder.id)}>
                 {folder.title}
+                <Button onClick={() => handleShow(folder)}>X</Button>
               </MenuItem>
             ))}
             <MenuItem>
