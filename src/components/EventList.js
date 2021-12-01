@@ -25,11 +25,15 @@ const EventList = function EventList({
   const formDateRef = useRef(null);
 
   const onClickAdd = () => {
-    const titleVal = formTitleRef.current.value;
-    if (formDateRef.current.value == '') {
+    if (formTitleRef.current.value === '') {
+      alert.show('Please enter an event title!');
+      return;
+    }
+    if (formDateRef.current.value === '') {
       alert.show('Please select a date!');
       return;
     }
+    const titleVal = formTitleRef.current.value;
     const startDate = new Date(formDateRef.current.value);
     const dateHours = startDate.getHours();
     const dateMinutes = startDate.getMinutes();
