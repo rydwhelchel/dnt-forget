@@ -93,7 +93,12 @@ const Sidebar = ({ folders, changeFolders, changeCurrFolder }) => {
                 overlay={folderPopover}
                 rootClose="true"
               >
-                <Button>Create new folder</Button>
+                <Button
+                  style={{ color: '#adadad' }}
+                  variant="outline-secondary"
+                >
+                  Create new folder
+                </Button>
               </OverlayTrigger>
             </MenuItem>
           </SubMenu>
