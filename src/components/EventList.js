@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormControl, InputGroup, ListGroup, Button } from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
 import EventItem from './EventItem';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../static/List.css';
 
 import { useAlert } from 'react-alert';
-
-let updateEvents = true;
 
 const EventList = function EventList({
   events,
@@ -23,12 +20,17 @@ const EventList = function EventList({
   const [eventsList, setEventsList] = useState(events);
   const [untilEvents, setUntilEvents] = useState([]);
   const [sinceEvents, setSinceEvents] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
   const alert = useAlert();
   const formTitleRef = useRef(null);
+  const formDateRef = useRef(null);
 
   const onClickAdd = () => {
     const titleVal = formTitleRef.current.value;
+    if (formDateRef.current.value == '') {
+      alert.show('Please select a date!');
+      return;
+    }
+    const startDate = new Date(formDateRef.current.value);
     const dateHours = startDate.getHours();
     const dateMinutes = startDate.getMinutes();
     const dateYears = startDate.getFullYear();
@@ -125,7 +127,6 @@ const EventList = function EventList({
           listOfUntilEvents.push(event);
         }
       });
-      // Sorting events
       listOfUntilEvents.sort((a, b) =>
         parseFloat(Date.parse(a.date) - Date.parse(b.date))
       );
@@ -179,14 +180,11 @@ const EventList = function EventList({
               ref={formTitleRef}
               placeholder="Enter title"
             />
-            <DatePicker
-              selected={startDate}
-              showTimeSelect
-              dateFormat="Pp"
-              onChange={(date) => setStartDate(date)}
-            />
+            <FormControl type="date" ref={formDateRef} />
             <Button onClick={onClickAdd}>Add Event</Button>
-            <Button onClick={onClickSave}>Save</Button>
+            <Button variant="success" onClick={onClickSave}>
+              Save
+            </Button>
           </InputGroup>
         </ListGroup.Item>
         {currFolder === 0
