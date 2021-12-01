@@ -1,4 +1,3 @@
-import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import EventList from './components/EventList';
 import PendingList from './components/PendingList';
@@ -12,7 +11,7 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
   // Pass down onFolderClick to EventList
 
   const [pendingChanges, setPendingChanges] = useState([]);
-  const [updateList, setUpdateList] = useState(false);
+  const [updateList, setUpdateList] = useState(true);
 
   const changePendingChanges = (pending) => {
     setPendingChanges(pending);

@@ -5,6 +5,7 @@ import './style.css';
 import Mainpage from './MainPage';
 import Sidebar from './components/Sidebar';
 import Dictaphone from './Dictaphone';
+import { Modal, Button } from 'react-bootstrap';
 
 export default function App() {
   const args = JSON.parse(document.getElementById('data').text);
@@ -36,6 +37,50 @@ export default function App() {
   const [folders, setFolders] = useState(args.folders);
   const [currFolder, setCurrFolder] = useState(0);
 
+  const deleteFolder = (folder) => {
+    let updatedEvents = [...events];
+    console.log(`Deleting ${folder.title}`);
+    console.log(`Pre delete: ${updatedEvents}`);
+    for (let j = 0; j < updatedEvents.length; j += 1) {
+      if (updatedEvents[j].folder === folder.id) {
+        console.log(`Deleting ${events[j].title}`);
+        updatedEvents = [
+          ...updatedEvents.slice(0, j),
+          ...updatedEvents.slice(j + 1),
+        ];
+        j -= 1;
+      }
+    }
+    console.log(`Post delete: ${updatedEvents}`);
+    let requestData = { id: folder.id, event: updatedEvents };
+    // fetch('/save', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(requestData),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data.events);
+    //     setEvents(data.events);
+    //   });
+    // console.log(events);
+    // requestData = { id: folder.id };
+    fetch('/delete_folder', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setEvents(data.events);
+        setFolders(data.folders);
+      });
+  };
+
   const changeEvents = (listedEvents) => {
     setEvents(listedEvents);
   };
@@ -54,6 +99,7 @@ export default function App() {
         folders={folders}
         changeFolders={changeFolders}
         changeCurrFolder={changeCurrFolder}
+        deleteFolder={deleteFolder}
         className="sidebar"
       />
       <Routes>

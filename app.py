@@ -105,10 +105,9 @@ def save():
 @app.route("/save_folder", methods=["POST"])
 def save_folder():
     """
-    Receives JSON data from App.js, saves the event information under the current user
+    Receives JSON data from App.js, saves the folder under the current user
     in the database.
     """
-
     requested_title = request.json.get("title")
     username = current_user.username
     new_folder = Folder(username=username, title=requested_title)
@@ -117,6 +116,34 @@ def save_folder():
     folders = Folder.query.filter_by(username=username).all()
     folder_list = get_folder_list(folders)
     return {"folders": folder_list}
+
+
+@app.route("/delete_folder", methods=["POST"])
+def delete_folder():
+    """
+    Receives JSON data from App.js, deletes the folder from the current user.
+    """
+    requested_id = request.json.get("id")
+    print(requested_id)
+    username = current_user.username
+    folder = Folder.query.filter_by(id=requested_id,username=username).first()
+    print(folder)
+    db.session.delete(folder)
+    db.session.commit()
+    folders = Folder.query.filter_by(username=username).all()
+    folder_list = get_folder_list(folders)
+
+    requested_data = request.json.get("event")
+    event_dates, event_titles, event_folders = get_dates_titles_folders(requested_data)  # request
+    event_completion = []
+    for i in request.json.get("event"):
+        event_completion.append(i.get("completed", False))
+    username = current_user.username
+    update_db_ids_for_user(username, event_titles, event_dates, event_folders, event_completion)
+
+    events = Event.query.filter_by(username=current_user.username).all()
+    event_jsoned = get_event_list(events)
+    return {"folders": folder_list, 'events': event_jsoned}
 
 def update_db_text(this_text, this_id):
     to_add = Eventnewtext(itsid=this_id, text=this_text)
