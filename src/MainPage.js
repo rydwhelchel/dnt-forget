@@ -1,6 +1,7 @@
+import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import EventList from './components/EventList';
-import Sidebar from './components/Sidebar';
+import PendingList from './components/PendingList';
 import './static/List.css';
 
 function Mainpage({ currFolder, changeEvents, folders, events }) {
@@ -10,21 +11,57 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
   // Pass down all folders state to Sidebar
   // Pass down onFolderClick to EventList
 
+  const [pendingChanges, setPendingChanges] = useState([]);
+  const [updateList, setUpdateList] = useState(false);
+
+  const removePendingChange = (pending) => {
+    let updateChanges = [];
+    for (let j = 0; j < pendingChanges.length; j += 1) {
+      if (pending === pendingChanges[j]) {
+        updateChanges = [
+          ...pendingChanges.slice(0, j),
+          ...pendingChanges.slice(j + 1),
+        ];
+      }
+    }
+    changePendingChanges([...updateChanges]);
+  };
+
+  const changePendingChanges = (pending) => {
+    setPendingChanges(pending);
+  };
+
+  const addPendingChange = (pending) => {
+    setPendingChanges([...pendingChanges, pending]);
+  };
+
+  const changeUpdateStatus = (prop) => {
+    setUpdateList(prop);
+  };
+
   return (
     <div
       style={{
         backgroundColor: '#3d3d3d',
         width: '100%',
+        display: 'grid',
+        gridTemplateColumns: '1.7fr 1fr',
       }}
     >
-      {/* <Sidebar className="sidebar" /> */}
-      <div className="listContainer">
-        <EventList
-          currFolder={currFolder}
-          folders={folders}
-          changeEvents={changeEvents}
-          events={events}
-        />
+      <EventList
+        className="listContainer"
+        currFolder={currFolder}
+        folders={folders}
+        updateList={updateList}
+        changeEvents={changeEvents}
+        changeUpdateStatus={changeUpdateStatus}
+        addPendingChange={addPendingChange}
+        changePendingChanges={changePendingChanges}
+        events={events}
+      />
+      <div className="rightColumn">
+        <div className="spaceEater"></div>
+        <PendingList pendingChanges={pendingChanges}></PendingList>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { ListGroup } from 'react-bootstrap';
+import { FormControl, InputGroup, ListGroup, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import EventItem from './EventItem';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -15,6 +15,10 @@ const EventList = function EventList({
   changeEvents,
   folders,
   currFolder,
+  addPendingChange,
+  changePendingChanges,
+  updateList,
+  changeUpdateStatus,
 }) {
   const [eventsList, setEventsList] = useState(events);
   const [untilEvents, setUntilEvents] = useState([]);
@@ -35,10 +39,17 @@ const EventList = function EventList({
     }-${dateDay < 10 ? `0${dateDay}` : dateDay}T${
       dateHours < 10 ? `0${dateHours}` : dateHours
     }:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
-    setEventsList([
-      ...eventsList,
-      { folder: currFolder, title: titleVal, date: dateString },
-    ]);
+    let event = {
+      folder: currFolder,
+      title: titleVal,
+      date: dateString,
+    };
+    setEventsList([...eventsList, event]);
+    addPendingChange({
+      method: 'add',
+      event: event,
+      folder: currFolderName,
+    });
     formTitleRef.current.value = '';
     alert.show('Event has been added.');
   };
@@ -51,7 +62,8 @@ const EventList = function EventList({
       }
     }
     setEventsList(updatedEvents);
-    updateEvents = true;
+    addPendingChange({ method: 'remove', event: event });
+    changeUpdateStatus(true);
   };
 
   const onClickSave = () => {
@@ -67,12 +79,14 @@ const EventList = function EventList({
       .then((data) => {
         setEventsList(data.events);
       });
-    updateEvents = true;
+    changeUpdateStatus(true);
+    changePendingChanges([]);
     alert.show('Successfully changed events!');
   };
 
   const onCompletion = (thisEvent) => {
     const thisEventObject = thisEvent;
+    const originalDate = thisEvent.date;
     const newStartDate = new Date();
     const dateHours = newStartDate.getHours();
     const dateMinutes = newStartDate.getMinutes();
@@ -87,7 +101,12 @@ const EventList = function EventList({
     thisEventObject.date = newDateString;
     thisEventObject.completed = true;
     setEventsList([...eventsList]);
-    updateEvents = true;
+    addPendingChange({
+      method: 'complete',
+      event: thisEvent,
+      originalDate: originalDate,
+    });
+    changeUpdateStatus(true);
   };
 
   useEffect(() => {
@@ -118,28 +137,30 @@ const EventList = function EventList({
       setSinceEvents(listOfSinceEvents);
     };
     if (
-      updateEvents ||
+      updateList ||
       sinceEvents.length + untilEvents.length !== eventsList.length
     ) {
       organizeEvents(eventsList);
-      updateEvents = false;
+      changeUpdateStatus(false);
     }
     changeEvents(eventsList);
-  }, [eventsList, sinceEvents, untilEvents]);
+  }, [updateList, eventsList, sinceEvents, untilEvents]);
   let currFolderName = '';
   folders.map((folder) => {
     if (folder.id === currFolder) {
       currFolderName = folder.title;
     } else if (currFolder === 0) {
-      currFolderName = 'No folder!';
+      currFolderName = 'Home';
     }
   });
   return (
     <div
       style={{
         display: 'grid',
+        width: '100%',
+        justifyContent: 'center',
         gridTemplateColumns: '1fr',
-        gridTemplateRows: '50px 1fr',
+        gridTemplateRows: '48px 1fr',
         alignContent: 'top',
       }}
     >
@@ -148,23 +169,25 @@ const EventList = function EventList({
       </div>
       <ListGroup className="list">
         <ListGroup.Item
-          style={{ width: '100%', backgroundColor: '#909090' }}
+          style={{ width: '100%', backgroundColor: '#1d1d1d' }}
           variant="secondary"
         >
-          <h1>Save an event for later:</h1>
-          <input type="text" ref={formTitleRef} placeholder="Enter title" />
-          <DatePicker
-            selected={startDate}
-            showTimeSelect
-            dateFormat="Pp"
-            onChange={(date) => setStartDate(date)}
-          />
-          <button type="button" onClick={onClickAdd}>
-            Add Event
-          </button>
-          <button type="button" onClick={onClickSave}>
-            Save
-          </button>
+          <h1 style={{ color: '#adadad' }}>Save an event for later:</h1>
+          <InputGroup>
+            <FormControl
+              type="text"
+              ref={formTitleRef}
+              placeholder="Enter title"
+            />
+            <DatePicker
+              selected={startDate}
+              showTimeSelect
+              dateFormat="Pp"
+              onChange={(date) => setStartDate(date)}
+            />
+            <Button onClick={onClickAdd}>Add Event</Button>
+            <Button onClick={onClickSave}>Save</Button>
+          </InputGroup>
         </ListGroup.Item>
         {currFolder === 0
           ? untilEvents.map((event) => (

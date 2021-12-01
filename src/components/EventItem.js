@@ -36,21 +36,6 @@ const EventItem = function EventItem({
           <div data-testid={testID} variant="primary" className="listItem">
             {event.title} - {getDate(event.date)} left!
             <ButtonGroup>
-              <Button
-                className="listButton"
-                data-testid="until-button"
-                variant="outline-primary"
-                onClick={() => onRemoveClick()}
-              >
-                Remove
-              </Button>
-              <Button
-                className="listButton"
-                variant="outline-secondary"
-                onClick={() => onCompletedClick()}
-              >
-                Complete Me
-              </Button>
               <Link to={'/details/' + event.id}>
                 <Button
                   variant="outline-info"
@@ -60,6 +45,21 @@ const EventItem = function EventItem({
                   Details
                 </Button>
               </Link>
+              <Button
+                className="listButton"
+                variant="outline-secondary"
+                onClick={() => onCompletedClick()}
+              >
+                Complete
+              </Button>
+              <Button
+                className="listButton"
+                data-testid="until-button"
+                variant="outline-danger"
+                onClick={() => onRemoveClick()}
+              >
+                Remove
+              </Button>
             </ButtonGroup>
           </div>
         </ListGroup.Item>
@@ -70,7 +70,7 @@ const EventItem = function EventItem({
             <Button
               className="listButton"
               data-testid="since-button"
-              variant="outline-primary"
+              variant="outline-danger"
               onClick={() => onRemoveClick()}
             >
               Remove
