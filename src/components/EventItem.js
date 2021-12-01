@@ -38,7 +38,7 @@ const EventItem = function EventItem({
             <ButtonGroup>
               <Link to={'/details/' + event.id}>
                 <Button
-                  variant="outline-info"
+                  variant="outline-dark"
                   className="listButton"
                   type="button"
                 >

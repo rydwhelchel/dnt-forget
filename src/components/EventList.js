@@ -165,7 +165,7 @@ const EventList = function EventList({
         width: '100%',
         justifyContent: 'center',
         gridTemplateColumns: '1fr',
-        gridTemplateRows: '48px 1fr',
+        gridTemplateRows: '54px 1fr',
         alignContent: 'top',
       }}
     >

@@ -14,19 +14,6 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
   const [pendingChanges, setPendingChanges] = useState([]);
   const [updateList, setUpdateList] = useState(false);
 
-  const removePendingChange = (pending) => {
-    let updateChanges = [];
-    for (let j = 0; j < pendingChanges.length; j += 1) {
-      if (pending === pendingChanges[j]) {
-        updateChanges = [
-          ...pendingChanges.slice(0, j),
-          ...pendingChanges.slice(j + 1),
-        ];
-      }
-    }
-    changePendingChanges([...updateChanges]);
-  };
-
   const changePendingChanges = (pending) => {
     setPendingChanges(pending);
   };
