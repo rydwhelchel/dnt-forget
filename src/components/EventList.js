@@ -67,6 +67,7 @@ const EventList = function EventList({
 
   const onClickDelete = (event) => {
     let updatedEvents = [];
+    console.log(`Event list is ${eventsList}`);
     if (eventsList.length !== 1) {
       for (let j = 0; j < eventsList.length; j += 1) {
         if (eventsList[j] === event) {
@@ -78,7 +79,6 @@ const EventList = function EventList({
       }
     }
     setEventsList(updatedEvents);
-    console.log(updatedEvents);
     addPendingChange({ method: 'remove', event: event });
     setUpdateList(true);
   };
@@ -95,9 +95,9 @@ const EventList = function EventList({
       .then((response) => response.json())
       .then((data) => {
         setEventsList(data.events);
+        setUpdateList(true);
+        changePendingChanges([]);
       });
-    setUpdateList(true);
-    changePendingChanges([]);
     alert.show('Successfully changed events!');
   };
 

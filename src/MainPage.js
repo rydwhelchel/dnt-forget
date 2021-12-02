@@ -5,22 +5,14 @@ import './static/List.css';
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
 function Mainpage({ currFolder, changeEvents, folders, events }) {
-  // Store folders state here
-  // Add new folder function here
-  // Filter args.events with currFolder
-  // Pass down all folders state to Sidebar
-  // Pass down onFolderClick to EventList
-
   const [pendingChanges, setPendingChanges] = useState([]);
   const apiKey = process.env.REACT_APP_OPENWEATHER_KEY;
-  console.log(apiKey);
-  // Get weather data from OpenWeather
   const { data, isLoading, errorMessage } = useOpenWeather({
     key: apiKey,
     lat: '33.753746',
     lon: '-84.386330',
     lang: 'en',
-    unit: 'imperial', // values are (metric, standard, imperial)
+    unit: 'imperial',
   });
 
   const customStyles = {
