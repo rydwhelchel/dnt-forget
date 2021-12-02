@@ -2,6 +2,8 @@
 
 Website (Sprint 1): http://dnt-forget-groupproject.herokuapp.com/
 
+Website (Sprint 2): http://dnt-fprget-app.herokuapp.com/
+
 ### Linting
 
 Python files are linted with `pylint` and formatted with `Black`. Javascript files are linted with `ESLint` using Airbnb rules.
