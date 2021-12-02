@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import EventList from './components/EventList';
 import PendingList from './components/PendingList';
 import './static/List.css';
+import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
 function Mainpage({ currFolder, changeEvents, folders, events }) {
   // Store folders state here
@@ -11,6 +12,16 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
   // Pass down onFolderClick to EventList
 
   const [pendingChanges, setPendingChanges] = useState([]);
+  const apiKey = process.env.REACT_APP_OPENWEATHER_KEY;
+  console.log(apiKey);
+  // Get weather data from OpenWeather
+  const { data, isLoading, errorMessage } = useOpenWeather({
+    key: apiKey,
+    lat: '33.753746',
+    lon: '-84.386330',
+    lang: 'en',
+    unit: 'imperial', // values are (metric, standard, imperial)
+  });
 
   const changePendingChanges = (pending) => {
     setPendingChanges(pending);
@@ -39,7 +50,15 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
         events={events}
       />
       <div className="rightColumn">
-        <div className="spaceEater"></div>
+        <ReactWeather
+          isLoading={isLoading}
+          errorMessage={errorMessage}
+          data={data}
+          lang="en"
+          locationLabel="Atlanta"
+          unitsLabels={{ temperature: 'F', windSpeed: 'm/h' }}
+          showForecast
+        />
         <PendingList pendingChanges={pendingChanges}></PendingList>
       </div>
     </div>
