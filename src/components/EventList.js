@@ -163,6 +163,7 @@ const EventList = function EventList({
     }
     changeEvents(eventsList);
   }, [updateList, eventsList, sinceEvents, untilEvents]);
+
   let currFolderName = '';
   folders.map((folder) => {
     if (folder.id === currFolder) {
@@ -171,6 +172,7 @@ const EventList = function EventList({
       currFolderName = 'Home';
     }
   });
+
   return (
     <div
       style={{
