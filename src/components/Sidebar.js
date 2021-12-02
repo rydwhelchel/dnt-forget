@@ -54,6 +54,14 @@ const Sidebar = ({
     document.body.click();
   };
 
+  const onClickLogout = () => {
+    fetch('/logout', {
+      method: 'GET',
+    }).then(() => {
+      window.location.reload(false);
+    });
+  };
+
   const handleShow = (folder) => {
     setFolder(folder);
     setShow(true);
@@ -151,7 +159,10 @@ const Sidebar = ({
       </SidebarContent>
       <SidebarFooter>
         <Menu iconShape="round">
-          <MenuItem icon={<FontAwesomeIcon icon={faSignOutAlt} />}>
+          <MenuItem
+            onClick={() => onClickLogout()}
+            icon={<FontAwesomeIcon icon={faSignOutAlt} />}
+          >
             Logout
           </MenuItem>
         </Menu>
