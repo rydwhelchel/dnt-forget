@@ -9,11 +9,22 @@
         body {
             text-align: center;
         }
+
+        #bgcolor {
+            background-color: antiquewhite;
+        }
+
+        #totoro {
+            background-image: url("https://static.boredpanda.com/blog/wp-content/uploads/2016/07/totoro-exercising-100-days-of-gifs-cl-terryart-7-578f8104bd788__605.gif");
+            height: 50vh;
+        }
     </style>
 </head>
 
-<body>
+<body id='bgcolor'>
     {% block content %}{% endblock %}
+    <div id='totoro'>
+    </div>
 </body>
 
 </html>
