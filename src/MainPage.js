@@ -11,7 +11,6 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
   // Pass down onFolderClick to EventList
 
   const [pendingChanges, setPendingChanges] = useState([]);
-  const [updateList, setUpdateList] = useState(true);
 
   const changePendingChanges = (pending) => {
     setPendingChanges(pending);
@@ -19,10 +18,6 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
 
   const addPendingChange = (pending) => {
     setPendingChanges([...pendingChanges, pending]);
-  };
-
-  const changeUpdateStatus = (prop) => {
-    setUpdateList(prop);
   };
 
   return (
@@ -38,9 +33,7 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
         className="listContainer"
         currFolder={currFolder}
         folders={folders}
-        updateList={updateList}
         changeEvents={changeEvents}
-        changeUpdateStatus={changeUpdateStatus}
         addPendingChange={addPendingChange}
         changePendingChanges={changePendingChanges}
         events={events}
