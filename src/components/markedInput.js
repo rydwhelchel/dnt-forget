@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
-import editorContext from "../editorContext";
-import Dictaphone from "../Dictaphone";
+import React, { useContext } from 'react';
+import styled from 'styled-components';
+import editorContext from '../editorContext';
+import Dictaphone from '../Dictaphone';
 import Button from 'react-bootstrap/Button';
 
 const Container = styled.div`
@@ -9,7 +9,7 @@ const Container = styled.div`
   height: 100%;
   padding: 13px;
   border-right: 1.5px solid rgba(15, 15, 15, 0.4);
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 `;
 
 const Title = styled.div`
@@ -34,15 +34,13 @@ export function MarkedInput(props) {
 
   // const markdownText = "hello its me"
 
-  const onInputChange = e => {
+  const onInputChange = (e) => {
     const newValue = e.currentTarget.value;
     setMarkdownText(newValue);
   };
 
-
-
-  const onClickIt = e => {
-    const requestData = { text: "" };
+  const onClickIt = (e) => {
+    const requestData = { text: '' };
     // fetch('/details/:eventid', {
     fetch(window.location.href, {
       method: 'POST',
@@ -73,11 +71,12 @@ export function MarkedInput(props) {
 
   return (
     <Container>
-      <button type="button" class="btn btn-outline-light" onClick={onClickIt}>Load Text</button>
+      <button type="button" class="btn btn-outline-light" onClick={onClickIt}>
+        Load Text
+      </button>
       <Title>Markdown Text</Title>
       <Dictaphone />
-      <TextArea value={markdownText} onChange={onInputChange}>
-      </TextArea>
+      <TextArea value={markdownText} onChange={onInputChange}></TextArea>
     </Container>
   );
 }

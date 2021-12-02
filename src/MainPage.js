@@ -4,7 +4,9 @@ import PendingList from './components/PendingList';
 import './static/List.css';
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
-function Mainpage({ currFolder, changeEvents, folders, events }) {
+const Mainpage = function ({
+  currFolder, changeEvents, folders, events,
+}) {
   // Store folders state here
   // Add new folder function here
   // Filter args.events with currFolder
@@ -89,10 +91,10 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
             showForecast
           />
         </div>
-        <PendingList pendingChanges={pendingChanges}></PendingList>
+        <PendingList pendingChanges={pendingChanges} />
       </div>
     </div>
   );
-}
+};
 
 export default Mainpage;
