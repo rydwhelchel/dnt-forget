@@ -73,7 +73,7 @@ export function MarkedInput(props) {
 
   return (
     <Container>
-      <button type="button" class="btn btn-outline-light" onClick={onClickIt}>SavedText</button>
+      <button type="button" class="btn btn-outline-light" onClick={onClickIt}>Load Text</button>
       <Title>Markdown Text</Title>
       <Dictaphone />
       <TextArea value={markdownText} onChange={onInputChange}>

@@ -57,7 +57,7 @@ export function Result(props) {
   return (
     <Container>
       <button type="button" class="btn btn-outline-light" onClick={onClickSavetext}>
-        SaveDoc
+        Save Text
       </button>
       <Title>Converted Text</Title>
       <p>{message}</p>
