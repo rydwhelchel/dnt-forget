@@ -134,9 +134,22 @@ const Sidebar = ({
         <Menu iconShape="round">
           <SubMenu title="Folders" icon={<FontAwesomeIcon icon={faFolder} />}>
             {folders.map((folder) => (
-              <MenuItem onClick={() => changeCurrFolder(folder.id)}>
-                {folder.title}
-                <Button onClick={() => handleShow(folder)}>X</Button>
+              <MenuItem
+                style={{ justifyContent: 'space-between' }}
+                onClick={() => changeCurrFolder(folder.id)}
+              >
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-between' }}
+                >
+                  {folder.title}
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleShow(folder)}
+                  >
+                    X
+                  </Button>
+                </div>
               </MenuItem>
             ))}
             <MenuItem>
