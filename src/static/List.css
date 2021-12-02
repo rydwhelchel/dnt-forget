@@ -61,7 +61,7 @@
   display: grid;
   grid-template-columns: 1fr;
   width: 95%;
-  grid-template-rows: 104px 1fr;
+  grid-template-rows: 526px 1fr;
 }
 .pendingList {
   margin-left: 5%;

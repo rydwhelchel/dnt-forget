@@ -23,6 +23,26 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
     unit: 'imperial', // values are (metric, standard, imperial)
   });
 
+  const customStyles = {
+    fontFamily: 'Helvetica, sans-serif',
+    gradientStart: '#0181C2',
+    gradientMid: '#04A7F9',
+    gradientEnd: '#4BC4F7',
+    locationFontColor: '#FFF',
+    todayTempFontColor: '#FFF',
+    todayDateFontColor: '#B5DEF4',
+    todayRangeFontColor: '#B5DEF4',
+    todayDescFontColor: '#B5DEF4',
+    todayInfoFontColor: '#B5DEF4',
+    todayIconColor: '#FFF',
+    forecastBackgroundColor: '#1d1d1d',
+    forecastSeparatorColor: '#DDD',
+    forecastDateColor: '#adadad',
+    forecastDescColor: '#adadad',
+    forecastRangeColor: '#adadad',
+    forecastIconColor: '#4BC4F7',
+  };
+
   const changePendingChanges = (pending) => {
     setPendingChanges(pending);
   };
@@ -50,15 +70,25 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
         events={events}
       />
       <div className="rightColumn">
-        <ReactWeather
-          isLoading={isLoading}
-          errorMessage={errorMessage}
-          data={data}
-          lang="en"
-          locationLabel="Atlanta"
-          unitsLabels={{ temperature: 'F', windSpeed: 'm/h' }}
-          showForecast
-        />
+        <div
+          style={{
+            paddingTop: '55px',
+            paddingRight: '10px',
+            paddingLeft: '30px',
+            paddingBottom: '50px',
+          }}
+        >
+          <ReactWeather
+            theme={customStyles}
+            isLoading={isLoading}
+            errorMessage={errorMessage}
+            data={data}
+            lang="en"
+            locationLabel="Atlanta"
+            unitsLabels={{ temperature: 'F', windSpeed: 'm/h' }}
+            showForecast
+          />
+        </div>
         <PendingList pendingChanges={pendingChanges}></PendingList>
       </div>
     </div>
