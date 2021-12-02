@@ -22,7 +22,7 @@ const Title = styled.div`
 
 const TextArea = styled.textarea`
   width: 100%;
-  height: 100%;
+  height: 68%;
   resize: none;
   border: none;
   outline: none;
@@ -73,7 +73,7 @@ export function MarkedInput(props) {
 
   return (
     <Container>
-      <button type="button" onClick={onClickIt}>prev_text</button>
+      <button type="button" class="btn btn-outline-light" onClick={onClickIt}>SavedText</button>
       <Title>Markdown Text</Title>
       <Dictaphone />
       <TextArea value={markdownText} onChange={onInputChange}>

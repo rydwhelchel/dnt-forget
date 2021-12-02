@@ -27,9 +27,9 @@ const Dictaphone = () => {
     return (
         <div>
             <p>Microphone: {listening ? 'on' : 'off'}</p>
-            <button onClick={SpeechRecognition.startListening}>Start</button>
-            <button onClick={SpeechRecognition.stopListening}>Stop</button>
-            <button onClick={resetTranscript}>Reset</button>
+            <button type="button" class="btn btn-primary btn-sm" onClick={SpeechRecognition.startListening}>Start</button><span>  </span>
+            <button type="button" class="btn btn-outline-warning btn-sm" onClick={SpeechRecognition.stopListening}>Stop</button><span>  </span>
+            <button type="button" class="btn btn-outline-light btn-sm" onClick={resetTranscript}>Reset</button>
             <p class="text-primary">{transcript}</p>
             {/* <Button onClick={() => navigator.clipboard.writeText('some text to copy')}>
                 Click here to copy

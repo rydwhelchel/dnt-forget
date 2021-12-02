@@ -20,10 +20,18 @@ const Title = styled.div`
 `;
 
 const ResultArea = styled.div`
+  // width: 100%;
+  // height: 100%;
+  // border: none;
+  // font-size: 17px;
   width: 100%;
-  height: 100%;
+  height: 80%;
+  resize: none;
   border: none;
+  outline: none;
   font-size: 17px;
+  color: black;
+  background: papayawhip;
 `;
 
 export function Result(props) {
@@ -48,7 +56,7 @@ export function Result(props) {
 
   return (
     <Container>
-      <button type="button" onClick={onClickSavetext}>
+      <button type="button" class="btn btn-outline-light" onClick={onClickSavetext}>
         SaveDoc
       </button>
       <Title>Converted Text</Title>
