@@ -14,15 +14,19 @@ const EventList = function EventList({
   currFolder,
   addPendingChange,
   changePendingChanges,
-  updateList,
-  changeUpdateStatus,
 }) {
   const [eventsList, setEventsList] = useState(events);
   const [untilEvents, setUntilEvents] = useState([]);
   const [sinceEvents, setSinceEvents] = useState([]);
+  const [updateList, setUpdateList] = useState(true);
   const alert = useAlert();
   const formTitleRef = useRef(null);
   const formDateRef = useRef(null);
+
+  Date.prototype.addHours = function (h) {
+    this.setTime(this.getTime() + h * 60 * 60 * 1000);
+    return this;
+  };
 
   const onClickAdd = () => {
     if (formTitleRef.current.value === '') {
@@ -35,6 +39,7 @@ const EventList = function EventList({
     }
     const titleVal = formTitleRef.current.value;
     const startDate = new Date(formDateRef.current.value);
+    startDate.addHours(5);
     const dateHours = startDate.getHours();
     const dateMinutes = startDate.getMinutes();
     const dateYears = startDate.getFullYear();
@@ -75,7 +80,7 @@ const EventList = function EventList({
     setEventsList(updatedEvents);
     console.log(updatedEvents);
     addPendingChange({ method: 'remove', event: event });
-    changeUpdateStatus(true);
+    setUpdateList(true);
   };
 
   const onClickSave = () => {
@@ -91,7 +96,7 @@ const EventList = function EventList({
       .then((data) => {
         setEventsList(data.events);
       });
-    changeUpdateStatus(true);
+    setUpdateList(true);
     changePendingChanges([]);
     alert.show('Successfully changed events!');
   };
@@ -118,7 +123,7 @@ const EventList = function EventList({
       event: thisEvent,
       originalDate: originalDate,
     });
-    changeUpdateStatus(true);
+    setUpdateList(true);
   };
 
   useEffect(() => {
@@ -154,7 +159,7 @@ const EventList = function EventList({
       sinceEvents.length + untilEvents.length !== eventsList.length
     ) {
       organizeEvents(eventsList);
-      changeUpdateStatus(false);
+      setUpdateList(false);
     }
     changeEvents(eventsList);
   }, [updateList, eventsList, sinceEvents, untilEvents]);
