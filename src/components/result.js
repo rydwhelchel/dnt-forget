@@ -3,6 +3,8 @@ import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import editorContext from "../editorContext";
 import remarkGfm from 'remark-gfm'
+import { useAlert } from 'react-alert';
+
 
 const Container = styled.div`
   width: 50%;
@@ -10,6 +12,7 @@ const Container = styled.div`
   padding: 13px;
   font-family: "Lato", sans-serif;
 `;
+
 
 const Title = styled.div`
   font-size: 22px;
@@ -37,8 +40,10 @@ const ResultArea = styled.div`
 export function Result(props) {
   const { markdownText } = useContext(editorContext);
   const [message, setMessage] = useState("");
+  const alert = useAlert();
 
   const onClickSavetext = () => {
+    alert.show('Excellent! Text Saved!');
     const requestData = { text: markdownText, cur: window.location.href };
     fetch('/savetext', {
       method: 'POST',
@@ -56,7 +61,7 @@ export function Result(props) {
 
   return (
     <Container>
-      <button type="button" class="btn btn-outline-light" onClick={onClickSavetext}>
+      <button type="button" class="btn btn-outline-light" onClick={onClickSavetext} >
         Save Text
       </button>
       <Title>Converted Text</Title>
