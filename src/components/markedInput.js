@@ -2,6 +2,10 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import editorContext from '../editorContext';
 import Dictaphone from '../Dictaphone';
+<<<<<<< HEAD
+=======
+import Button from 'react-bootstrap/Button';
+>>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
 
 const Container = styled.div`
   width: 50%;
@@ -21,7 +25,7 @@ const Title = styled.div`
 
 const TextArea = styled.textarea`
   width: 100%;
-  height: 100%;
+  height: 68%;
   resize: none;
   border: none;
   outline: none;
@@ -38,7 +42,11 @@ export const MarkedInput = function MarkedInput() {
     setMarkdownText(newValue);
   };
 
+<<<<<<< HEAD
   const onClickIt = () => {
+=======
+  const onClickIt = (e) => {
+>>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
     const requestData = { text: '' };
     // fetch('/details/:eventid', {
     fetch(window.location.href, {
@@ -56,6 +64,7 @@ export const MarkedInput = function MarkedInput() {
 
   return (
     <Container>
+<<<<<<< HEAD
       <button type="button" onClick={onClickIt}>
         prev_text
       </button>
@@ -67,3 +76,14 @@ export const MarkedInput = function MarkedInput() {
 };
 
 export default MarkedInput;
+=======
+      <button type="button" class="btn btn-outline-light" onClick={onClickIt}>
+        Load Text
+      </button>
+      <Title>Markdown Text</Title>
+      <Dictaphone />
+      <TextArea value={markdownText} onChange={onInputChange}></TextArea>
+    </Container>
+  );
+}
+>>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad

@@ -23,5 +23,6 @@ module.exports = {
     'no-extend-native': 'off',
     'react/no-this-in-sfc': 'off',
     'array-callback-return': 'off',
+
   },
 };

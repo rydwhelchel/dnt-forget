@@ -4,6 +4,3 @@ index.js
 .eslintrc.js
 __tests__
 build
-ESLint.yml
-pylint.yml
-Jests.yml
