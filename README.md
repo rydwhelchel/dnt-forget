@@ -21,13 +21,14 @@ ESLint:
 
 Standard exclusions.
 
-`react/jsx-no-constructed-context-values`, `react/jsx-no-useless-fragment`, `react/no-children-prop`, `no-nested-ternary`
+`react/jsx-no-constructed-context-values`, `react/jsx-no-useless-fragment`, `react/no-children-prop`, `no-nested-ternary`, `array-callback-return`
 
 These rules directly contradict the logic of some of our components. We would have to redesign entire portions of our app to satisfy some styling and minor optimizations.
 
 `no-extend-native`, `react/no-this-in-sfc`
 
 Unfortunately, we need to extend a prototype in our project.
+
 
 pylint:
 `E1101` no-member, `C0413` wrong-import-position, `W1508` invalid-envvar-default, `R0903`, `W0603` global-statement
