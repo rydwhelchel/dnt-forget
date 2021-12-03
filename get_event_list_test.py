@@ -1,6 +1,4 @@
-"""
-get_event_list_test.py
-"""
+# pylint: skip-file
 from resources import helper
 import unittest
 from resources import models
@@ -21,7 +19,10 @@ KEY_EXPECTED = "expected"
 class Fun1TestCase(unittest.TestCase):
     def setUp(self):
         self.success_test_params = [
-            {KEY_INPUT: [], KEY_EXPECTED: [],},
+            {
+                KEY_INPUT: [],
+                KEY_EXPECTED: [],
+            },
             {
                 KEY_INPUT: [models.Event(id=1, title="2", date="3")],
                 KEY_EXPECTED: [{"id": 1, "title": "2", "date": "3"}],

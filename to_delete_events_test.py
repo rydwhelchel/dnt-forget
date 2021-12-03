@@ -1,6 +1,4 @@
-"""
-to_delete_events_test.py
-"""
+# pylint: skip-file
 from resources import helper
 import unittest
 from resources import models

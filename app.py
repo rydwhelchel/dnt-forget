@@ -1,6 +1,7 @@
+"""Adds routes to the Flask App"""
 import os
 import json
-from flask import jsonify, request, Blueprint, render_template, redirect, url_for, flash
+from flask import request, Blueprint, render_template, redirect, url_for, flash
 from flask_login.utils import login_required
 from flask_login import current_user, login_user, logout_user
 
@@ -11,6 +12,7 @@ from resources import (
     Person,
     Event,
     Folder,
+    Eventnewtext,
     get_event_list,
     get_dates_titles_folders,
     to_add_events,
@@ -18,8 +20,6 @@ from resources import (
     get_folder_list,
 )
 from app_setup import app, login_manager
-from resources.helper import get_folder_list
-from resources.models import Eventnewtext
 
 bp = Blueprint("bp", __name__, template_folder="./build")
 
@@ -27,8 +27,9 @@ bp = Blueprint("bp", __name__, template_folder="./build")
 @bp.route("/")
 @login_required
 def index():
+    """Main page of Flask App."""
     DATA = {"current_user": current_user.username}
-    username=current_user.username
+    username = current_user.username
     events = Event.query.filter_by(username=username).all()
     event_list = get_event_list(events)
     folders = Folder.query.filter_by(username=username).all()
@@ -43,12 +44,14 @@ app.register_blueprint(bp)
 
 
 @login_manager.user_loader
-def load_user(id):
-    return Person.query.get(int(id))
+def load_user(user_id):
+    """Loads the user."""
+    return Person.query.get(int(user_id))
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """Routes to the register page."""
     if current_user.is_authenticated:
         return redirect(url_for("bp.index"))
 
@@ -65,6 +68,7 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """Routes to the Login page."""
     if current_user.is_authenticated:
         return redirect(url_for("bp.index"))
     form = LoginForm()
@@ -78,33 +82,39 @@ def login():
 
     return render_template("login.html", title="Sign In", form=form)
 
+
 @app.route("/splash_page")
 def splash_page():
+    """Routes to the splash page, users are redirected here if they are not logged in."""
     return render_template("splash.html")
 
 
 @app.route("/logout")
 def logout():
+    """Logs out a user and redirects them."""
     logout_user()
     return redirect(url_for("bp.index"))
 
 
 @app.route("/save", methods=["POST"])
 def save():
-    """
-    Receives JSON data from App.js, saves the event information under the current user
-    in the database.
-    """
+    """Receives JSON data from App.js, saves the event information under the current user
+    in the database."""
     requested_data = request.json.get("event")
-    event_dates, event_titles, event_folders = get_dates_titles_folders(requested_data)  # request
+    event_dates, event_titles, event_folders = get_dates_titles_folders(
+        requested_data
+    )  # request
     event_completion = []
     for i in request.json.get("event"):
         event_completion.append(i.get("completed", False))
     username = current_user.username
-    update_db_ids_for_user(username, event_titles, event_dates, event_folders, event_completion)
+    update_db_ids_for_user(
+        username, event_titles, event_dates, event_folders, event_completion
+    )
     events = Event.query.filter_by(username=current_user.username).all()
     event_jsoned = get_event_list(events)
     return {"events": event_jsoned}
+
 
 @app.route("/save_folder", methods=["POST"])
 def save_folder():
@@ -125,12 +135,12 @@ def save_folder():
 @app.route("/delete_folder", methods=["POST"])
 def delete_folder():
     """
-    Receives JSON data from App.js, deletes the folder from the current user.
+    Deletes the folder from the current user.
     """
     requested_id = request.json.get("id")
     print(requested_id)
     username = current_user.username
-    folder = Folder.query.filter_by(id=requested_id,username=username).first()
+    folder = Folder.query.filter_by(id=requested_id, username=username).first()
     print(folder)
     db.session.delete(folder)
     db.session.commit()
@@ -138,18 +148,24 @@ def delete_folder():
     folder_list = get_folder_list(folders)
 
     requested_data = request.json.get("event")
-    event_dates, event_titles, event_folders = get_dates_titles_folders(requested_data)  # request
+    event_dates, event_titles, event_folders = get_dates_titles_folders(
+        requested_data
+    )  # request
     event_completion = []
     for i in request.json.get("event"):
         event_completion.append(i.get("completed", False))
     username = current_user.username
-    update_db_ids_for_user(username, event_titles, event_dates, event_folders, event_completion)
+    update_db_ids_for_user(
+        username, event_titles, event_dates, event_folders, event_completion
+    )
 
     events = Event.query.filter_by(username=current_user.username).all()
     event_jsoned = get_event_list(events)
-    return {"folders": folder_list, 'events': event_jsoned}
+    return {"folders": folder_list, "events": event_jsoned}
+
 
 def update_db_text(this_text, this_id):
+    """Updates the db with new details text"""
     to_add = Eventnewtext(itsid=this_id, text=this_text)
     db.session.add(to_add)
     db.session.commit()
@@ -157,16 +173,17 @@ def update_db_text(this_text, this_id):
 
 @app.route("/details/<eventid>", methods=["GET", "POST"])
 def details(eventid):
+    """Routes the user to the details route."""
     pretext = Eventnewtext.query.filter_by(itsid=eventid).all()
     if not pretext:
         return {"text": ""}
-    else:
-        pretext = pretext[-1].text
+    pretext = pretext[-1].text
     return {"text": pretext}
 
 
 @app.route("/savetext", methods=["POST"])
 def savetext():
+    """Saves the text to the DB"""
     this_text = request.json.get("text")
     this_id = request.json.get("cur")
     this_id = this_id.split("/")
@@ -175,11 +192,13 @@ def savetext():
     return {"message": ""}
 
 
-def update_db_ids_for_user(user, event_titles, event_dates, event_folders, event_completion):
+def update_db_ids_for_user(
+    user, event_titles, event_dates, event_folders, event_completion
+):
     """
     Updates the DB with new or removed events.
     @param username: the username of the current user
-    @param event_titles: a set of artist IDs that the DB should update itself
+    @param event_titles: a set of event titles that the DB should update itself
         to reflect
     """
     existing_titles = [
@@ -189,7 +208,9 @@ def update_db_ids_for_user(user, event_titles, event_dates, event_folders, event
     to_add = to_add_events(event_titles, event_dates, event_folders, existing_titles)
 
     for event in to_add:
-        db.session.add(Event(title=event[0], username=user, date=event[1], folder=event[2]))
+        db.session.add(
+            Event(title=event[0], username=user, date=event[1], folder=event[2])
+        )
 
     to_update = [
         (completion, titles, event_date, event_folder)
