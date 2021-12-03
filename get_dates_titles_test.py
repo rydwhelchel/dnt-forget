@@ -1,6 +1,4 @@
-"""
-get_dates_titles_test.py
-"""
+# pylint: skip-file
 from resources import helper
 import unittest
 from resources import models
@@ -21,7 +19,10 @@ class Fun1TestCase(unittest.TestCase):
     def setUp(self):
         self.success_test_params = [
             {KEY_INPUT: [], KEY_EXPECTED: ([], [])},
-            {KEY_INPUT: [{"title": "1", "date": "2"}], KEY_EXPECTED: (["2"], ["1"]),},
+            {
+                KEY_INPUT: [{"title": "1", "date": "2"}],
+                KEY_EXPECTED: (["2"], ["1"]),
+            },
         ]
 
     def test_thisfun_success(self):
