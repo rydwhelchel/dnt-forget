@@ -58,7 +58,7 @@ export const Result = function Result() {
     <Container>
       <button
         type="button"
-        class="btn btn-outline-light"
+        className="btn btn-outline-light"
         onClick={onClickSavetext}
       >
         Save Text
