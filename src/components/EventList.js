@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormControl, InputGroup, ListGroup, Button } from 'react-bootstrap';
+import {
+  FormControl, InputGroup, ListGroup, Button,
+} from 'react-bootstrap';
+import { useAlert } from 'react-alert';
 import EventItem from './EventItem';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../static/List.css';
-
-import { useAlert } from 'react-alert';
 
 const EventList = function EventList({
   events,
@@ -22,8 +23,9 @@ const EventList = function EventList({
   const alert = useAlert();
   const formTitleRef = useRef(null);
   const formDateRef = useRef(null);
+  let currFolderName = '';
 
-  Date.prototype.addHours = function (h) {
+  Date.prototype.addHours = function addHours(h) {
     this.setTime(this.getTime() + h * 60 * 60 * 1000);
     return this;
   };
@@ -50,7 +52,7 @@ const EventList = function EventList({
     }-${dateDay < 10 ? `0${dateDay}` : dateDay}T${
       dateHours < 10 ? `0${dateHours}` : dateHours
     }:${dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes}`;
-    let event = {
+    const event = {
       folder: currFolder,
       title: titleVal,
       date: dateString,
@@ -58,7 +60,7 @@ const EventList = function EventList({
     setEventsList([...eventsList, event]);
     addPendingChange({
       method: 'add',
-      event: event,
+      event,
       folder: currFolderName,
     });
     formTitleRef.current.value = '';
@@ -67,7 +69,6 @@ const EventList = function EventList({
 
   const onClickDelete = (event) => {
     let updatedEvents = [];
-    console.log(`Event list is ${eventsList}`);
     if (eventsList.length !== 1) {
       for (let j = 0; j < eventsList.length; j += 1) {
         if (eventsList[j] === event) {
@@ -79,7 +80,7 @@ const EventList = function EventList({
       }
     }
     setEventsList(updatedEvents);
-    addPendingChange({ method: 'remove', event: event });
+    addPendingChange({ method: 'remove', event });
     setUpdateList(true);
   };
 
@@ -103,7 +104,6 @@ const EventList = function EventList({
 
   const onCompletion = (thisEvent) => {
     const thisEventObject = thisEvent;
-    const originalDate = thisEvent.date;
     const newStartDate = new Date();
     const dateHours = newStartDate.getHours();
     const dateMinutes = newStartDate.getMinutes();
@@ -121,7 +121,6 @@ const EventList = function EventList({
     addPendingChange({
       method: 'complete',
       event: thisEvent,
-      originalDate: originalDate,
     });
     setUpdateList(true);
   };
@@ -144,19 +143,15 @@ const EventList = function EventList({
           listOfUntilEvents.push(event);
         }
       });
-      listOfUntilEvents.sort((a, b) =>
-        parseFloat(Date.parse(a.date) - Date.parse(b.date))
-      );
-      listOfSinceEvents.sort((a, b) =>
-        parseFloat(Date.parse(b.date) - Date.parse(a.date))
-      );
+      listOfUntilEvents.sort((a, b) => parseFloat(Date.parse(a.date) - Date.parse(b.date)));
+      listOfSinceEvents.sort((a, b) => parseFloat(Date.parse(b.date) - Date.parse(a.date)));
 
       setUntilEvents(listOfUntilEvents);
       setSinceEvents(listOfSinceEvents);
     };
     if (
-      updateList ||
-      sinceEvents.length + untilEvents.length !== eventsList.length
+      updateList
+      || sinceEvents.length + untilEvents.length !== eventsList.length
     ) {
       organizeEvents(eventsList);
       setUpdateList(false);
@@ -164,7 +159,6 @@ const EventList = function EventList({
     changeEvents(eventsList);
   }, [updateList, eventsList, sinceEvents, untilEvents]);
 
-  let currFolderName = '';
   folders.map((folder) => {
     if (folder.id === currFolder) {
       currFolderName = folder.title;
@@ -208,67 +202,80 @@ const EventList = function EventList({
         </ListGroup.Item>
         {currFolder === 0
           ? untilEvents.map((event) => (
-              <EventItem
-                key={event.id}
-                typeItem="until"
-                testID={`event-${event.id}`}
-                event={event}
-                style={{ width: '100%' }}
-                onRemoveClick={() => onClickDelete(event)}
-                onCompletedClick={() => onCompletion(event)}
-              />
-            ))
-          : untilEvents.map((event) =>
-              event.folder === currFolder ? (
-                <EventItem
-                  key={event.id}
-                  typeItem="until"
-                  testID={`event-${event.id}`}
-                  event={event}
-                  onRemoveClick={() => onClickDelete(event)}
-                  onCompletedClick={() => onCompletion(event)}
-                />
-              ) : (
-                <></>
-              )
-            )}
+            <EventItem
+              key={event.id}
+              typeItem="until"
+              testID={`event-${event.id}`}
+              event={event}
+              style={{ width: '100%' }}
+              onRemoveClick={() => onClickDelete(event)}
+              onCompletedClick={() => onCompletion(event)}
+            />
+          ))
+          : untilEvents.map((event) => (event.folder === currFolder ? (
+            <EventItem
+              key={event.id}
+              typeItem="until"
+              testID={`event-${event.id}`}
+              event={event}
+              onRemoveClick={() => onClickDelete(event)}
+              onCompletedClick={() => onCompletion(event)}
+            />
+          ) : (
+            <></>
+          )))}
         {currFolder === 0
           ? sinceEvents.map((event) => (
-              <EventItem
-                key={event.id}
-                typeItem="since"
-                testID={`event-${event.id}`}
-                event={event}
-                onRemoveClick={() => onClickDelete(event)}
-                onCompletedClick={() => onCompletion(event)}
-              />
-            ))
-          : sinceEvents.map((event) =>
-              event.folder === currFolder ? (
-                <EventItem
-                  key={event.id}
-                  typeItem="since"
-                  testID={`event-${event.id}`}
-                  event={event}
-                  onRemoveClick={() => onClickDelete(event)}
-                  onCompletedClick={() => onCompletion(event)}
-                />
-              ) : (
-                <></>
-              )
-            )}
+            <EventItem
+              key={event.id}
+              typeItem="since"
+              testID={`event-${event.id}`}
+              event={event}
+              onRemoveClick={() => onClickDelete(event)}
+              onCompletedClick={() => onCompletion(event)}
+            />
+          ))
+          : sinceEvents.map((event) => (event.folder === currFolder ? (
+            <EventItem
+              key={event.id}
+              typeItem="since"
+              testID={`event-${event.id}`}
+              event={event}
+              onRemoveClick={() => onClickDelete(event)}
+              onCompletedClick={() => onCompletion(event)}
+            />
+          ) : (
+            <></>
+          )))}
       </ListGroup>
     </div>
   );
 };
+
+/* events,
+  changeEvents,
+  folders,
+  currFolder,
+  addPendingChange,
+  changePendingChanges, */
 
 EventList.propTypes = {
   events: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
+  changeEvents: PropTypes.func.isRequired,
+  folders: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  currFolder: PropTypes.number.isRequired,
+  addPendingChange: PropTypes.func.isRequired,
+  changePendingChanges: PropTypes.func.isRequired,
 };
 
 export default EventList;

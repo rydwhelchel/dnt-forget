@@ -1,42 +1,37 @@
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-// import Button from 'react-bootstrap/Button';
-import React, { useState } from 'react';
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from 'react-speech-recognition';
+import React from 'react';
 
+const Dictaphone = function Dictaphone() {
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
 
-const Dictaphone = () => {
-    const [copySuccess, setCopySuccess] = useState('');
-    const copyToClipBoard = async copyMe => {
-        try {
-            await navigator.clipboard.writeText(copyMe);
-            setCopySuccess('Copied!');
-        } catch (err) {
-            setCopySuccess('Failed to copy!');
-        }
-    };
-    const {
-        transcript,
-        listening,
-        resetTranscript,
-        browserSupportsSpeechRecognition
-    } = useSpeechRecognition();
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn&#39;t support speech recognition.</span>;
+  }
 
-    if (!browserSupportsSpeechRecognition) {
-        return <span>Browser doesn't support speech recognition.</span>;
-    }
-
-    return (
-        <div>
-            <p>Microphone: {listening ? 'on' : 'off'}</p>
-            <button onClick={SpeechRecognition.startListening}>Start</button>
-            <button onClick={SpeechRecognition.stopListening}>Stop</button>
-            <button onClick={resetTranscript}>Reset</button>
-            <p class="text-primary">{transcript}</p>
-            {/* <Button onClick={() => navigator.clipboard.writeText('some text to copy')}>
-                Click here to copy
-            </Button>
-            {copySuccess} */}
-
-        </div>
-    );
+  return (
+    <div>
+      <p>
+        Microphone:
+        {listening ? 'on' : 'off'}
+      </p>
+      <button type="button" onClick={SpeechRecognition.startListening}>
+        Start
+      </button>
+      <button type="button" onClick={SpeechRecognition.stopListening}>
+        Stop
+      </button>
+      <button type="button" onClick={resetTranscript}>
+        Reset
+      </button>
+      <p className="text-primary">{transcript}</p>
+    </div>
+  );
 };
 export default Dictaphone;

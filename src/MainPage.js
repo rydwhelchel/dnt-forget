@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import ReactWeather, { useOpenWeather } from 'react-open-weather';
 import EventList from './components/EventList';
 import PendingList from './components/PendingList';
 import './static/List.css';
-import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
-function Mainpage({ currFolder, changeEvents, folders, events }) {
+const Mainpage = function Mainpage({
+  currFolder,
+  changeEvents,
+  folders,
+  events,
+}) {
   const [pendingChanges, setPendingChanges] = useState([]);
   const apiKey = process.env.REACT_APP_OPENWEATHER_KEY;
   const { data, isLoading, errorMessage } = useOpenWeather({
@@ -81,10 +87,27 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
             showForecast
           />
         </div>
-        <PendingList pendingChanges={pendingChanges}></PendingList>
+        <PendingList pendingChanges={pendingChanges} />
       </div>
     </div>
   );
-}
+};
+
+Mainpage.propTypes = {
+  events: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  changeEvents: PropTypes.func.isRequired,
+  folders: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  currFolder: PropTypes.number.isRequired,
+};
 
 export default Mainpage;

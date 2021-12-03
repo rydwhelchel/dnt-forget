@@ -1,14 +1,14 @@
-import React, { useState, useContext } from "react";
-import styled from "styled-components";
-import ReactMarkdown from "react-markdown";
-import editorContext from "../editorContext";
-import remarkGfm from 'remark-gfm'
+import React, { useState, useContext } from 'react';
+import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import editorContext from '../editorContext';
 
 const Container = styled.div`
   width: 50%;
   height: 100%;
   padding: 13px;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 `;
 
 const Title = styled.div`
@@ -26,9 +26,9 @@ const ResultArea = styled.div`
   font-size: 17px;
 `;
 
-export function Result(props) {
+export const Result = function Result() {
   const { markdownText } = useContext(editorContext);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   const onClickSavetext = () => {
     const requestData = { text: markdownText, cur: window.location.href };
@@ -45,7 +45,6 @@ export function Result(props) {
       });
   };
 
-
   return (
     <Container>
       <button type="button" onClick={onClickSavetext}>
@@ -58,4 +57,6 @@ export function Result(props) {
       </ResultArea>
     </Container>
   );
-}
+};
+
+export default Result;

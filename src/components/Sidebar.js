@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   ProSidebar,
   Menu,
@@ -26,18 +27,18 @@ import {
   Modal,
 } from 'react-bootstrap';
 
-const Sidebar = ({
+const Sidebar = function Sidebar({
   folders,
   changeFolders,
   changeCurrFolder,
   deleteFolder,
-}) => {
+}) {
   const folderInput = useRef(null);
   const [show, setShow] = useState(false);
   const [folderToDelete, setFolder] = useState(null);
 
   const newFolderClick = () => {
-    let requestData = { title: folderInput.current.value };
+    const requestData = { title: folderInput.current.value };
     fetch('/save_folder', {
       method: 'POST',
       headers: {
@@ -50,7 +51,7 @@ const Sidebar = ({
         changeFolders(data.folders);
       });
 
-    //closes popover
+    // closes popover
     document.body.click();
   };
 
@@ -93,8 +94,12 @@ const Sidebar = ({
 
           <Modal.Body>
             <p>
-              Are you sure you want to delete {folderToDelete.title}? Deleting
-              this folder will also delete all events held within.{' '}
+              Are you sure you want to delete
+              {' '}
+              {folderToDelete.title}
+              ? Deleting
+              this folder will also delete all events held within.
+              {' '}
               <p style={{ color: 'red' }}>This change is irreversible!</p>
             </p>
           </Modal.Body>
@@ -119,7 +124,7 @@ const Sidebar = ({
           }}
         >
           <h1 className="sidebarHeadText">Dnt Forget</h1>
-          <div></div>
+          <div />
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -182,6 +187,18 @@ const Sidebar = ({
       </SidebarFooter>
     </ProSidebar>
   );
+};
+
+Sidebar.propTypes = {
+  folders: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  changeFolders: PropTypes.func.isRequired,
+  changeCurrFolder: PropTypes.func.isRequired,
+  deleteFolder: PropTypes.func.isRequired,
 };
 
 export default Sidebar;

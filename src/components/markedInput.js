@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
-import editorContext from "../editorContext";
-import Dictaphone from "../Dictaphone";
-import Button from 'react-bootstrap/Button';
+import React, { useContext } from 'react';
+import styled from 'styled-components';
+import editorContext from '../editorContext';
+import Dictaphone from '../Dictaphone';
 
 const Container = styled.div`
   width: 50%;
   height: 100%;
   padding: 13px;
   border-right: 1.5px solid rgba(15, 15, 15, 0.4);
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 `;
 
 const Title = styled.div`
@@ -29,20 +28,18 @@ const TextArea = styled.textarea`
   font-size: 17px;
 `;
 
-export function MarkedInput(props) {
+export const MarkedInput = function MarkedInput() {
   const { markdownText, setMarkdownText } = useContext(editorContext);
 
   // const markdownText = "hello its me"
 
-  const onInputChange = e => {
+  const onInputChange = (e) => {
     const newValue = e.currentTarget.value;
     setMarkdownText(newValue);
   };
 
-
-
-  const onClickIt = e => {
-    const requestData = { text: "" };
+  const onClickIt = () => {
+    const requestData = { text: '' };
     // fetch('/details/:eventid', {
     fetch(window.location.href, {
       method: 'POST',
@@ -56,28 +53,17 @@ export function MarkedInput(props) {
         setMarkdownText(data.text);
       });
   };
-  // const onClickButton = () => {
-  //   const requestData = { text: "" };
-  //   fetch('/details', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(requestData),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setMarkdownText(data.text);
-  //     });
-  // };
 
   return (
     <Container>
-      <button type="button" onClick={onClickIt}>prev_text</button>
+      <button type="button" onClick={onClickIt}>
+        prev_text
+      </button>
       <Title>Markdown Text</Title>
       <Dictaphone />
-      <TextArea value={markdownText} onChange={onInputChange}>
-      </TextArea>
+      <TextArea value={markdownText} onChange={onInputChange} />
     </Container>
   );
-}
+};
+
+export default MarkedInput;
