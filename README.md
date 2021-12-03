@@ -17,7 +17,13 @@ These three files are included with `Create React app`, and so linting these is 
 #### Excluded Rules
 
 ESLint:
-`react/no-array-index-key`, `react-hooks/exhaustive-deps`, `react/jsx-filename-extension`
+`react/no-array-index-key`, `react-hooks/exhaustive-deps`, `react/jsx-filename-extension`, 
+
+Standard exclusions.
+
+`react/jsx-no-constructed-context-values`, `react/jsx-no-useless-fragment`
+
+These rules directly contradict the logic of some of our components. We would have to redesign entire portions of our app to satisfy some styling and minor optimizations.
 
 pylint:
 `E1101` no-member, `C0413` wrong-import-position, `W1508` invalid-envvar-default, `R0903`, `W0603` global-statement
