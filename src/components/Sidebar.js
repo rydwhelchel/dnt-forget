@@ -58,7 +58,7 @@ const Sidebar = ({
     fetch('/logout', {
       method: 'GET',
     }).then(() => {
-      window.location.reload(false);
+      window.location.replace('/login');
     });
   };
 
