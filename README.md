@@ -25,6 +25,10 @@ Standard exclusions.
 
 These rules directly contradict the logic of some of our components. We would have to redesign entire portions of our app to satisfy some styling and minor optimizations.
 
+`no-extend-native`
+
+Unfortunately, we need to extend a prototype in our project.
+
 pylint:
 `E1101` no-member, `C0413` wrong-import-position, `W1508` invalid-envvar-default, `R0903`, `W0603` global-statement
 
