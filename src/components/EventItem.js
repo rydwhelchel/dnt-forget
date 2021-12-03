@@ -75,6 +75,7 @@ const EventItem = function EventItem({
             {event.title}
             {' '}
             -
+            {' '}
             {getDate(event.date)}
             {' '}
             since!
