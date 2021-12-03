@@ -21,7 +21,7 @@ ESLint:
 
 Standard exclusions.
 
-`react/jsx-no-constructed-context-values`, `react/jsx-no-useless-fragment`, `react/no-children-prop`
+`react/jsx-no-constructed-context-values`, `react/jsx-no-useless-fragment`, `react/no-children-prop`, `no-nested-ternary`
 
 These rules directly contradict the logic of some of our components. We would have to redesign entire portions of our app to satisfy some styling and minor optimizations.
 
