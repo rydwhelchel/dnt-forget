@@ -5,17 +5,12 @@ import EventList from './components/EventList';
 import PendingList from './components/PendingList';
 import './static/List.css';
 
-<<<<<<< HEAD
 const Mainpage = function Mainpage({
   currFolder,
   changeEvents,
   folders,
   events,
 }) {
-=======
-
-function Mainpage({ currFolder, changeEvents, folders, events }) {
->>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
   const [pendingChanges, setPendingChanges] = useState([]);
   const apiKey = process.env.REACT_APP_OPENWEATHER_KEY;
   const { data, isLoading, errorMessage } = useOpenWeather({
@@ -97,7 +92,6 @@ function Mainpage({ currFolder, changeEvents, folders, events }) {
     </div>
   );
 };
-<<<<<<< HEAD
 
 Mainpage.propTypes = {
   events: PropTypes.arrayOf(
@@ -115,7 +109,5 @@ Mainpage.propTypes = {
   ).isRequired,
   currFolder: PropTypes.number.isRequired,
 };
-=======
->>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
 
 export default Mainpage;

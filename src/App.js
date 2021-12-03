@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-<<<<<<< HEAD
 import Details from './Details';
 import './style.css';
 import Mainpage from './MainPage';
 import Sidebar from './components/Sidebar';
 
 const App = function App() {
-=======
-import './style.css';
-import Mainpage from './MainPage';
-import Sidebar from './components/Sidebar';
-import Details from './details';
-
-const App = function () {
->>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
   const args = JSON.parse(document.getElementById('data').text);
   const [events, setEvents] = useState(args.events);
   const [folders, setFolders] = useState(args.folders);
@@ -31,26 +22,7 @@ const App = function () {
         j -= 1;
       }
     }
-<<<<<<< HEAD
     const requestData = { id: folder.id, event: updatedEvents };
-=======
-    console.log(`Post delete: ${updatedEvents}`);
-    const requestData = { id: folder.id, event: updatedEvents };
-    // fetch('/save', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(requestData),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data.events);
-    //     setEvents(data.events);
-    //   });
-    // console.log(events);
-    // requestData = { id: folder.id };
->>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
     fetch('/delete_folder', {
       method: 'POST',
       headers: {
@@ -97,20 +69,10 @@ const App = function () {
               changeEvents={changeEvents}
               events={events}
             />
-<<<<<<< HEAD
           )}
         />
-=======
-            )}
-        />
-        )
->>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
       </Routes>
     </div>
   );
 };
-<<<<<<< HEAD
-
-=======
->>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
 export default App;
