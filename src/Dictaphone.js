@@ -1,11 +1,9 @@
 import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
-// import Button from 'react-bootstrap/Button';
 import React from 'react';
 
-// const Dictaphone = function() => {
-const Dictaphone = function () {
+const Dictaphone = function Dictaphone() {
   const {
     transcript,
     listening,
@@ -14,7 +12,7 @@ const Dictaphone = function () {
   } = useSpeechRecognition();
 
   if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn&lsquot support speech recognition.</span>;
+    return <span>Browser doesn&#39;t support speech recognition.</span>;
   }
 
   return (
@@ -23,34 +21,16 @@ const Dictaphone = function () {
         Microphone:
         {listening ? 'on' : 'off'}
       </p>
-      <button
-        type="button"
-        className="btn btn-primary btn-sm"
-        onClick={SpeechRecognition.startListening}
-      >
+      <button type="button" onClick={SpeechRecognition.startListening}>
         Start
       </button>
-      <span> </span>
-      <button
-        type="button"
-        className="btn btn-outline-warning btn-sm"
-        onClick={SpeechRecognition.stopListening}
-      >
+      <button type="button" onClick={SpeechRecognition.stopListening}>
         Stop
       </button>
-      <span> </span>
-      <button
-        type="button"
-        className="btn btn-outline-light btn-sm"
-        onClick={resetTranscript}
-      >
+      <button type="button" onClick={resetTranscript}>
         Reset
       </button>
       <p className="text-primary">{transcript}</p>
-      {/* <Button onClick={() => navigator.clipboard.writeText('some text to copy')}>
-                Click here to copy
-            </Button>
-            {copySuccess} */}
     </div>
   );
 };

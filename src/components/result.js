@@ -1,9 +1,14 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
+<<<<<<< HEAD
+import remarkGfm from 'remark-gfm';
+import editorContext from '../editorContext';
+=======
 import editorContext from '../editorContext';
 import remarkGfm from 'remark-gfm';
 import { useAlert } from 'react-alert';
+>>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
 
 const Container = styled.div`
   width: 50%;
@@ -35,10 +40,13 @@ const ResultArea = styled.div`
   background: papayawhip;
 `;
 
-export function Result(props) {
+export const Result = function Result() {
   const { markdownText } = useContext(editorContext);
   const [message, setMessage] = useState('');
+<<<<<<< HEAD
+=======
   const alert = useAlert();
+>>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
 
   const onClickSavetext = () => {
     alert.show('Excellent! Text Saved!');
@@ -72,4 +80,10 @@ export function Result(props) {
       </ResultArea>
     </Container>
   );
+<<<<<<< HEAD
+};
+
+export default Result;
+=======
 }
+>>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad

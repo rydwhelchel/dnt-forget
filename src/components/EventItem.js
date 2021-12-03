@@ -34,9 +34,15 @@ const EventItem = function EventItem({
       {typeItem === 'until' ? (
         <ListGroup.Item variant="primary">
           <div data-testid={testID} variant="primary" className="listItem">
-            {event.title} - {getDate(event.date)} left!
+            {event.title}
+            {' '}
+            -
+            {' '}
+            {getDate(event.date)}
+            {' '}
+            left!
             <ButtonGroup>
-              <Link to={'/details/' + event.id}>
+              <Link to={`/details/${event.id}`}>
                 <Button
                   variant="outline-dark"
                   className="listButton"
@@ -66,7 +72,12 @@ const EventItem = function EventItem({
       ) : (
         <ListGroup.Item variant="danger">
           <div data-testid={testID} variant="danger" className="listItem">
-            {event.title} - {getDate(event.date)} since!
+            {event.title}
+            {' '}
+            -
+            {getDate(event.date)}
+            {' '}
+            since!
             <Button
               className="listButton"
               data-testid="since-button"
