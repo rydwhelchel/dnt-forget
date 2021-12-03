@@ -1,18 +1,16 @@
-import React, { useState, useContext } from "react";
-import styled from "styled-components";
-import ReactMarkdown from "react-markdown";
-import editorContext from "../editorContext";
-import remarkGfm from 'remark-gfm'
+import React, { useState, useContext } from 'react';
+import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown';
+import editorContext from '../editorContext';
+import remarkGfm from 'remark-gfm';
 import { useAlert } from 'react-alert';
-
 
 const Container = styled.div`
   width: 50%;
   height: 100%;
   padding: 13px;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 `;
-
 
 const Title = styled.div`
   font-size: 22px;
@@ -39,7 +37,7 @@ const ResultArea = styled.div`
 
 export function Result(props) {
   const { markdownText } = useContext(editorContext);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const alert = useAlert();
 
   const onClickSavetext = () => {
@@ -58,10 +56,13 @@ export function Result(props) {
       });
   };
 
-
   return (
     <Container>
-      <button type="button" class="btn btn-outline-light" onClick={onClickSavetext} >
+      <button
+        type="button"
+        class="btn btn-outline-light"
+        onClick={onClickSavetext}
+      >
         Save Text
       </button>
       <Title>Converted Text</Title>

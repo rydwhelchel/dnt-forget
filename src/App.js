@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Details from './details';
 import './style.css';
 import Mainpage from './MainPage';
 import Sidebar from './components/Sidebar';
-import Dictaphone from './Dictaphone';
-import { Modal, Button } from 'react-bootstrap';
+import Details from './details';
 
-export default function App() {
+const App = function () {
   const args = JSON.parse(document.getElementById('data').text);
 
   // const args = {
@@ -52,7 +50,7 @@ export default function App() {
       }
     }
     console.log(`Post delete: ${updatedEvents}`);
-    let requestData = { id: folder.id, event: updatedEvents };
+    const requestData = { id: folder.id, event: updatedEvents };
     // fetch('/save', {
     //   method: 'POST',
     //   headers: {
@@ -103,19 +101,21 @@ export default function App() {
         className="sidebar"
       />
       <Routes>
-        <Route path="/details/:eventId" element={<Details />}></Route>
+        <Route path="/details/:eventId" element={<Details />} />
         <Route
           path="/"
-          element={
+          element={(
             <Mainpage
               currFolder={currFolder}
               folders={folders}
               changeEvents={changeEvents}
               events={events}
             />
-          }
-        ></Route>
+            )}
+        />
+        )
       </Routes>
     </div>
   );
-}
+};
+export default App;
