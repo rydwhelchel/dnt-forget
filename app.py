@@ -78,6 +78,10 @@ def login():
 
     return render_template("login.html", title="Sign In", form=form)
 
+@app.route("/splash_page")
+def splash_page():
+    return render_template("splash.html")
+
 
 @app.route("/logout")
 def logout():
