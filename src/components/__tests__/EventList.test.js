@@ -1,8 +1,20 @@
-import { render, screen, clenaup } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import EventList from '../EventList';
+import { Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
+import { BrowserRouter } from 'react-router-dom';
+
+const rootElement = document.getElementById('root');
+const options = {
+  position: 'bottom center',
+  timeout: 5000,
+  offset: '30px',
+  transition: 'scale',
+};
 
 
 test('should render list of event items', () => {
+    const changeEvents = () => {return};
     const args = {
         events: [
           { id: 1,title: 'Meeting with Prof', date: '2065-11-11T12:00' },
@@ -16,7 +28,13 @@ test('should render list of event items', () => {
           { id: 9,title: 'Thanksgiving', date: '2000-01-16' },
         ],
       };
-    render(<EventList events={args.events} />);
+    const folders = [{id: 1, title:'folder'}]
+    render(
+      <BrowserRouter>
+      <AlertProvider template={AlertTemplate} {...options}>
+            <EventList addPendingChange={()=>{return}} changePendingChanges={()=>{return}} currFolder={0} folders={folders} changeEvents={changeEvents} events={args.events} />
+          </AlertProvider>
+          </BrowserRouter>);
     // Ensure Until events 
     for (let i = 0; i < 5; i+=1) {
         const event = screen.getByTestId(`event-${args.events[i].id}`);
