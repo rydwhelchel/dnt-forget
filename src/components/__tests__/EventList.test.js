@@ -4,7 +4,6 @@ import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 import { BrowserRouter } from 'react-router-dom';
 
-const rootElement = document.getElementById('root');
 const options = {
   position: 'bottom center',
   timeout: 5000,
