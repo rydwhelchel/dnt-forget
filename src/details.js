@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import './style.css';
 import styled from 'styled-components';
-<<<<<<< HEAD
 import { MarkedInput } from './components/MarkedInput';
 import { Result } from './components/Result';
 import EditorContext from './editorContext';
-=======
-import { MarkedInput } from './components/markedInput';
-import { Result } from './components/result';
-import EditorContext from './editorContext';
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from 'react-speech-recognition';
->>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
 
 const AppContainer = styled.div`
   width: 100%;
@@ -35,11 +26,7 @@ const EditorContainer = styled.div`
   display: flex;
 `;
 
-<<<<<<< HEAD
 const Details = function Details() {
-=======
-function Details() {
->>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
   const [markdownText, setMarkdownText] = useState('');
 
   const contextValue = {
@@ -58,10 +45,6 @@ function Details() {
       </AppContainer>
     </EditorContext.Provider>
   );
-<<<<<<< HEAD
 };
-=======
-}
->>>>>>> 3dace90fe2f24e97ef6d847a167577b1b035b9ad
 
 export default Details;
