@@ -1,5 +1,5 @@
 # pylint: skip-file
-from resources import helper
+from resources.helper import get_event_list
 import unittest
 
 KEY_INPUT = "input"
@@ -32,7 +32,7 @@ class Fun1TestCase(unittest.TestCase):
 
     def test_thisfun_success(self):
         for test in self.success_test_params:
-            actual_result = helper.get_event_list(test[KEY_INPUT])
+            actual_result = get_event_list(test[KEY_INPUT])
             expected_result = test[KEY_EXPECTED]
             self.assertEqual(actual_result, expected_result)
 
