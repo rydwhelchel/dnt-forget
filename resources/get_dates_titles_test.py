@@ -1,5 +1,5 @@
 # pylint: skip-file
-from resources.helper import get_dates_titles_folders
+from helper import get_dates_titles_folders
 import unittest
 
 KEY_INPUT = "input"
