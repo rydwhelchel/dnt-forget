@@ -24,3 +24,9 @@ jobs:
       - name: Testing Event List
         run: |
           python3 -m unittest resources/get_event_list_test.py
+      - name: Testing Add Event
+        run: |
+          python3 -m unittest to_add_events_test.py
+      - name: Testing Delete Event
+        run: |
+          python3 -m unittest to_delete_events_test.py
