@@ -1,6 +1,5 @@
 # pylint: skip-file
-import os
-from helper import get_event_list
+from resources.helper import get_event_list
 import unittest
 
 KEY_INPUT = "input"
