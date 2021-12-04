@@ -17,7 +17,7 @@ class Event:
         self.folder = folder
 
 
-#os.environ["DATABASE_URL"] = "fake_data"
+# os.environ["DATABASE_URL"] = "fake_data"
 
 
 class Fun1TestCase(unittest.TestCase):
