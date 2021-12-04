@@ -1,5 +1,6 @@
 """Contains a selection of helper functions."""
 
+
 def get_folder_list(folders):
     """Gets the folder list in dictionary format."""
     folder_list = []
