@@ -2,6 +2,7 @@
 __pycache__
 notes.txt
 .vscode
+*.pyc
 
 # dependencies
 /node_modules
