@@ -1,7 +1,6 @@
 # pylint: skip-file
 from resources import helper
 import unittest
-from resources import models
 
 KEY_INPUT = "input"
 KEY_EXPECTED = "expected"
