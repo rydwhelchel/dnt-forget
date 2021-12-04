@@ -18,16 +18,16 @@ KEY_EXPECTED = "expected"
 class Fun1TestCase(unittest.TestCase):
     def setUp(self):
         self.success_test_params = [
-            {KEY_INPUT: [], KEY_EXPECTED: ([], [])},
+            {KEY_INPUT: [], KEY_EXPECTED: ([], [], [])},
             {
-                KEY_INPUT: [{"title": "1", "date": "2"}],
-                KEY_EXPECTED: (["2"], ["1"]),
+                KEY_INPUT: [{"title": "1", "date": "2", "folder": {"id": 3, "title": "title"}}],
+                KEY_EXPECTED: (["2"], ["1"], [{"id": 3, "title": "title"}] ),
             },
         ]
 
     def test_thisfun_success(self):
         for test in self.success_test_params:
-            actual_result = helper.get_dates_titles(test[KEY_INPUT])
+            actual_result = helper.get_dates_titles_folders(test[KEY_INPUT])
             expected_result = test[KEY_EXPECTED]
             self.assertEqual(actual_result, expected_result)
 
