@@ -13,7 +13,8 @@ KEY_EXPECTED = "expected"
 #         event_dates.append(i["date"])
 #     return event_dates, event_titles
 
-#os.environ["DATABASE_URL"] = "fake_data"
+# os.environ["DATABASE_URL"] = "fake_data"
+
 
 class Fun1TestCase(unittest.TestCase):
     def setUp(self):
