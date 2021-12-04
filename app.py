@@ -138,10 +138,8 @@ def delete_folder():
     Deletes the folder from the current user.
     """
     requested_id = request.json.get("id")
-    print(requested_id)
     username = current_user.username
     folder = Folder.query.filter_by(id=requested_id, username=username).first()
-    print(folder)
     db.session.delete(folder)
     db.session.commit()
     folders = Folder.query.filter_by(username=username).all()
