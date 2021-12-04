@@ -36,3 +36,4 @@ pylint:
 Standard exclusions.
 
 `C0200` enumerate : At times, we intend to use `range(len(` instead of `enumerate`
+`C0103` invalid-name : We use ALLCAPS to represent constants. This rule does not respect that.
