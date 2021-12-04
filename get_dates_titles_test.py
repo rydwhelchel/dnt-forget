@@ -19,8 +19,10 @@ class Fun1TestCase(unittest.TestCase):
         self.success_test_params = [
             {KEY_INPUT: [], KEY_EXPECTED: ([], [], [])},
             {
-                KEY_INPUT: [{"title": "1", "date": "2", "folder": {"id": 3, "title": "title"}}],
-                KEY_EXPECTED: (["2"], ["1"], [{"id": 3, "title": "title"}] ),
+                KEY_INPUT: [
+                    {"title": "1", "date": "2", "folder": {"id": 3, "title": "title"}}
+                ],
+                KEY_EXPECTED: (["2"], ["1"], [{"id": 3, "title": "title"}]),
             },
         ]
 

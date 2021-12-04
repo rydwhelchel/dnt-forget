@@ -5,14 +5,17 @@ import unittest
 KEY_INPUT = "input"
 KEY_EXPECTED = "expected"
 
-class Event():
+
+class Event:
     """Mocked database event object"""
+
     def __init__(self, id, title, username, date, folder):
         self.id = id
         self.title = title
         self.username = username
         self.date = date
         self.folder = folder
+
 
 class Fun1TestCase(unittest.TestCase):
     def setUp(self):
@@ -23,7 +26,7 @@ class Fun1TestCase(unittest.TestCase):
             },
             {
                 KEY_INPUT: [Event(id=1, folder=4, username="asd", title="2", date="3")],
-                KEY_EXPECTED: [{"id": 1, "folder": 4, "title": "2", "date": "3" }],
+                KEY_EXPECTED: [{"id": 1, "folder": 4, "title": "2", "date": "3"}],
             },
         ]
 
