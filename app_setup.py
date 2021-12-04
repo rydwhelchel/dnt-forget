@@ -9,12 +9,9 @@ load_dotenv(find_dotenv())
 app = Flask(__name__, static_folder="./build/static")
 
 
-try:
-    uri = os.getenv("DATABASE_URL")
-    if uri.startswith("postgres://"):
-        uri = uri.replace("postgres://", "postgresql://", 1)
-except AttributeError:
-    print("errored...")
+uri = os.getenv("DATABASE_URL")
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = uri
