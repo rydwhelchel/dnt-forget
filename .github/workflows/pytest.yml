@@ -20,7 +20,7 @@ jobs:
           pip install -r requirements.txt
       - name: Testing Date Titles Folders
         run: |
-          python3 -m unittest get_dates_titles_test.py
+          python3 -m unittest resources/get_dates_titles_test.py
       - name: Testing Event List
         run: |
-          python3 -m unittest get_event_list_test.py
+          python3 -m unittest resources/get_event_list_test.py
