@@ -1,11 +1,15 @@
 # pylint: skip-file
+import os, sys
 from resources import helper
 import unittest
-from resources import Event
 
 KEY_INPUT = "input"
 KEY_EXPECTED = "expected"
 
+if not os.getenv("DATABASE_URL"):
+    os.environ['DATABASE_URL'] = "fake_data"
+
+from resources import Event
 
 class Fun1TestCase(unittest.TestCase):
     def setUp(self):
