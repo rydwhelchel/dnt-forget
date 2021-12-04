@@ -1,4 +1,5 @@
 # pylint: skip-file
+import os
 from helper import get_dates_titles_folders
 import unittest
 
@@ -13,6 +14,7 @@ KEY_EXPECTED = "expected"
 #         event_dates.append(i["date"])
 #     return event_dates, event_titles
 
+#os.environ["DATABASE_URL"] = "fake_data"
 
 class Fun1TestCase(unittest.TestCase):
     def setUp(self):

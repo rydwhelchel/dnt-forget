@@ -1,4 +1,5 @@
 # pylint: skip-file
+import os
 from helper import get_event_list
 import unittest
 
@@ -15,6 +16,9 @@ class Event:
         self.username = username
         self.date = date
         self.folder = folder
+
+
+#os.environ["DATABASE_URL"] = "fake_data"
 
 
 class Fun1TestCase(unittest.TestCase):
