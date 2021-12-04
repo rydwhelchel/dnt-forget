@@ -1,19 +1,10 @@
 # pylint: skip-file
 from resources import helper
 import unittest
-from resources import models
+from resources import Event
 
 KEY_INPUT = "input"
 KEY_EXPECTED = "expected"
-
-
-# def get_event_list(events):
-#     event_list = []
-#     for i in range(len(events)):
-#         event_list.append(
-#             {"id": events[i].id, "title": events[i].title, "date": events[i].date}
-#         )
-#     return event_list
 
 
 class Fun1TestCase(unittest.TestCase):
@@ -24,8 +15,8 @@ class Fun1TestCase(unittest.TestCase):
                 KEY_EXPECTED: [],
             },
             {
-                KEY_INPUT: [models.Event(id=1, title="2", date="3")],
-                KEY_EXPECTED: [{"id": 1, "title": "2", "date": "3"}],
+                KEY_INPUT: [Event(id=1, folder=4, title="2", date="3")],
+                KEY_EXPECTED: [{"id": 1, "folder": 4, "title": "2", "date": "3" }],
             },
         ]
 
