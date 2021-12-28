@@ -2,7 +2,7 @@
 
 Website (Sprint 1): http://dnt-forget-groupproject.herokuapp.com/
 
-Website (Sprint 2): http://dnt-fprget-app.herokuapp.com/
+Website (Sprint 2): http://dnt-forget-app.herokuapp.com/
 
 ### Linting
 
